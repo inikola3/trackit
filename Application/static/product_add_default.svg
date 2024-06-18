@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 101.5505 101.5505">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke-width: 8px;
+      }
+
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #3a3a3a;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .cls-2 {
+        stroke-dasharray: 0 0 16.3524 16.3524;
+        stroke-width: 3px;
+      }
+    </style>
+  </defs>
+  <rect class="cls-2" x="1.5" y="1.5" width="98.5505" height="98.5505" rx="20" ry="20"/>
+  <line class="cls-1" x1="50.7752" y1="19.4454" x2="50.7752" y2="82.0326"/>
+  <line class="cls-1" x1="82.0688" y1="50.7752" x2="19.4817" y2="50.7752"/>
+</svg>

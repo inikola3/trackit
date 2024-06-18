@@ -1,0 +1,110 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    {{ product.name }} 
+{% endblock %}
+{% block body_class %} 
+    class="body-add-product-page"
+{% endblock %}
+   
+{% block content %}
+<div class="inv_page_container">
+    <form method="post" enctype="multipart/form-data" novalidate id="product-form">
+        {% csrf_token %}
+        <div class="inventory_page_mid">
+            <div style="float:left; font-weight:700">Product Image</div>
+        </div>
+        <div class="add-page-banner"> 
+           {% if product.product_image %}     
+                <div class="banner_image_field">
+                        <img src="{{ product.product_image.url }}" alt="{{ product.name }}" class="product_page_icon" id="current-image" style="max-width: 200px;">
+                        <input type="file" id="id_product_image" name="product_image" style="display:none;">
+                </div>  
+                <div class="banner_name_field">
+                    {{ product.name}}
+                </div>
+           {% endif %}    
+        </div>
+        <div class="inventory_page_mid">
+            <div style="float:left; font-weight:700">Product Info</div>
+        </div>
+        <div class="inventory_prod-page-form">
+            <div class="input-group">
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+                        {{ form.name }}
+                    </div> 
+                    <div class="form-group col-md-6">
+                        <label for="{{ form.classification.id_for_label }}">{{ form.classification.label }}</label>
+                        {{ form.classification }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="{{ form.container.id_for_label }}">{{ form.container.label }}</label>
+                        {{ form.container }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="{{ form.fragrance.id_for_label }}">{{ form.fragrance.label }}</label>
+                        {{ form.fragrance }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="{{ form.wax_type.id_for_label }}">{{ form.wax_type.label }}</label>
+                        {{ form.wax_type }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="{{ form.wick_size.id_for_label }}">{{ form.wick_size.label }}</label>
+                        {{ form.wick_size }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="{{ form.price.id_for_label }}">{{ form.price.label }}</label>
+                        {{ form.price }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6" style='transform: translateY(7px);'>
+                        <label for="{{ form.quantity.id_for_label }}">{{ form.quantity.label }}</label>
+                        {{ form.quantity }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="{{ form.in_stock.id_for_label }}">In-Use:</label>
+                        {{ form.in_stock }}
+                    </div>
+                    <div class="form-group col-md-6">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+        </div>
+    </form>       
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const imageElement = document.getElementById("current-image");
+        const fileInputElement = document.getElementById("id_product_image");
+
+        if (imageElement && fileInputElement) {
+            imageElement.addEventListener("click", function() {
+                fileInputElement.click();
+            });
+
+            fileInputElement.addEventListener("change", function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        imageElement.src = e.target.result;
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+    });
+</script>
+
+{% endblock %}

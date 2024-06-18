@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Home Page
+{% endblock %}
+
+{% block header %}
+    {% if username %}
+        <p class="user_message">Hello {{ username }}</p>
+    {% else %}
+        <p>Welcome</p>
+    {% endif %}    
+{% endblock %}
+{% block content %}
+
+{% endblock %}

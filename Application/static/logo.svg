@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #eace2d;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        stroke-width: 0px;
+      }
+
+      .cls-4 {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 13.1935px;
+      }
+
+      .cls-4, .cls-2, .cls-5 {
+        fill: none;
+      }
+
+      .cls-4, .cls-5 {
+        stroke: #272730;
+      }
+
+      .cls-3 {
+        fill: #dbba19;
+      }
+
+      .cls-5 {
+        stroke-miterlimit: 10;
+        stroke-width: 14px;
+      }
+    </style>
+  </defs>
+  <rect class="cls-1" width="500" height="500" rx="119.363" ry="119.363"/>
+  <path class="cls-3" d="M378.1505,236.8491l95.1866,36.6606s32.0367,173.3945-89.8992,200.8272l-133.4379-95.1348c36.7274-26.037,67.0488-43.5697,88.9151-55.1603,13.7522-7.2896,27.6696-14.0891,36.3303-29.7248,11.3455-20.4826,6.8988-43.9042,2.9051-57.4679Z"/>
+  <rect class="cls-5" x="23.2502" y="23.2502" width="453.4995" height="453.4995" rx="108.2621" ry="108.2621"/>
+  <g>
+    <polygon class="cls-4" points="121.8495 200.9544 257.2918 279.1552 257.2918 383.412 121.8495 305.216 121.8495 200.9544"/>
+    <polygon class="cls-2" points="121.8495 200.9544 257.2918 279.1552 257.2918 280.6154 121.8495 202.8255 121.8495 200.9544"/>
+    <polygon class="cls-4" points="378.1505 194.7804 257.2918 279.1552 257.2918 383.412 378.1505 299.0371 378.1505 194.7804"/>
+    <polygon class="cls-4" points="121.8495 200.9544 257.2918 279.1552 378.1505 194.7804 242.7082 116.588 121.8495 200.9544"/>
+  </g>
+</svg>

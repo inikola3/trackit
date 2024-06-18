@@ -1,0 +1,82 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    {{ component.name }} 
+{% endblock %}
+{% block body_class %} 
+    class="body-add-product-page"
+{% endblock %}
+   
+{% block content %}
+<div class="inv_page_container">
+    <form method="post" enctype="multipart/form-data" novalidate id="component-form">
+        {% csrf_token %}
+        <div class="inventory_page_mid">
+            <div style="float:left; font-weight:700">Component Image</div>
+        </div>
+        <div class="add-page-banner"> 
+            {% if component.component_image %}    
+                <div class="banner_image_field">
+                    <img src="{{ component.component_image.url }}" alt="{{ component.name }}" class="product_page_icon" id="current-image" style="max-width: 200px;">
+                    <input type="file" id="id_product_image" name="component_image" style="display:none;">
+                </div>  
+                <div class="banner_name_field">
+                    {{ Component.name}}
+                </div>         
+            {% endif %}    
+        </div>
+        <div class="inventory_page_mid">
+            <div style="float:left; font-weight:700">Component Info</div>
+        </div>
+        <div class="inventory_prod-page-form">
+            <div class="input-group">
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+                        {{ form.name }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        {{ form.quantity }}{{form.unit}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        {{ form.price }}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+        
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const imageElement = document.getElementById("current-image");
+        const fileInputElement = document.getElementById("id_product_image");
+
+        if (imageElement && fileInputElement) {
+            imageElement.addEventListener("click", function() {
+                fileInputElement.click();
+            });
+
+            fileInputElement.addEventListener("change", function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        imageElement.src = e.target.result;
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+    });
+</script>
+
+{% endblock %}

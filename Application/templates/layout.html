@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    {% block head %}
+
+    {% endblock %}
+    <title>
+        {% block title %}
+            Inventory App
+        {% endblock %}
+    </title>
+    <link rel="icon" type="image/svg" href="{% static 'logo.svg' %}">
+    {% block bootstrap %}
+
+    {% endblock %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap">
+
+    <script>
+        {% block script %}
+        {% endblock %}
+    </script>
+</head>
+
+<body {% block body_class %} {% endblock %}>
+        <div class="navbar">
+            <div class:"sidebar-logo">
+                <a href="{% url 'dashboard:dashboard' %}">
+                    <img src="{% static 'logo.svg' %}" alt="Logo" class="sidebar-logo">
+                </a> 
+            </div>
+            <div class="sidebar-name"> trackit </div>   
+            <div class="icon-container">
+                <div class="icon">
+                    <a href="{% url 'dashboard:dashboard' %}">                   
+                        <img src="{% static 'clipboard_simple.svg' %}" alt="Logo" class="logo3" title="Dashboard"> 
+                        <p class="icon1_text">Dashboard</p>     
+                    </a>
+                </div>     
+                <div class="icon">
+                    <a href="{% url 'inventory:inventory' %}">
+                        <img src="{% static 'inventory3.svg' %}" alt="Logo" class="logo4" title="Inventory">
+                        <div class="icon2_text">Inventory</div>
+                    </a>
+                </div>
+                <div class="icon">
+                    <a href="{% url 'inventory:components' %}">
+                        <img src="{% static 'components_icon2.svg' %}" alt="Logo" class="logo4" title="Components" style="width: 50px; height: 50px; transform: translate(5px,-8px);">
+                        <div class="icon2_text" style="transform: translate(50px,-42px);">Components</div>
+                    </a>
+                </div>
+                <div class="icon">
+                    <a href="{% url 'calculator:calculator' %}">
+                        <img src="{% static 'calculator.svg' %}" alt="Logo" class="logo2" title="Calculator">
+                        <p class="icon3_text">Wax Calculator</p>
+                    </a>
+                </div>    
+                <!-- Add more icons here -->
+            </div>
+        </div>
+
+        <header class="header">
+            <div class="page-name"> 
+                <div class="page-name-container">  
+                {% block header %}
+
+                {% endblock %}
+                </div>
+            </div>
+            <div>
+                <form action ="{% url 'users:logout' %}" method="post">
+                    {% csrf_token %}   
+                    <button class="signin-btn">Sign-Out</button>
+                </form>
+            </div>
+        </header> 
+        <div class="logo-line">
+        </div>
+        <div class="main-content">
+            {% block content %}
+            {% endblock %}
+        </div>
+</body>
+
+<form_body> 
+</form_body>
+</html>

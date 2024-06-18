@@ -1,0 +1,314 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block head %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block header %}
+    Dashboard
+{% endblock %}
+
+{% block content %}
+
+    <div class="dashboard-first-row-container">
+        
+{% comment %} Card 1 Stock alerts {% endcomment %} 
+
+        <div class="card1">
+            <div class="card_top">
+                <div class="card-content">
+                    <div style="color:#272730; font-weight:700">Products out of stock</div>
+                    <div style="margin-bottom: 10px; color:#272730; font-weight:700">{{ out_of_stock_products }}</div>
+                </div>    
+                <div class="card-content">
+                    <div style="color:#272730; font-weight:700">Components out of stock</div>
+                    <div style="margin-bottom: 10px; color:#272730; font-weight:700">{{ out_of_stock_components }}</div>
+                </div> 
+                <div class="card-content">
+                    {% if near_out_of_stock_products == 0 %}
+                        <div style="color:#272730; font-weight:700">Products almost out of stock</div>
+                    {% else %}
+                        {% comment %} <div><img src="{% static 'warning.svg' %}" alt="Logo" class="warning-icon"></div> {% endcomment %}
+                        <div style="color:#272730; font-weight:700"> Products almost out of stock <img src="{% static 'warning.svg' %}" alt="Logo" class="warning-icon"></div>
+                    {% endif %}
+                        <div style="margin-bottom: 10px; color:#272730; font-weight:700">{{ near_out_of_stock_products }}</div>
+                </div> 
+                <div class="card-content">
+                    {% if near_out_of_stock_components == 0 %}
+                        <div style="color:#272730; font-weight:700">Components almost out of stock</div>
+                    {% else %}   
+                        {% comment %} <div><img src="{% static 'warning.svg' %}" alt="Logo" class="warning-icon"></div> {% endcomment %}
+                        <div style="color:#272730; font-weight:700">Components almost out of stock<img src="{% static 'warning.svg' %}" alt="Logo" class="warning-icon"></div> 
+                    {% endif %}
+                        <div style="margin-bottom: 10px; color:#272730; font-weight:700">{{ near_out_of_stock_components }}</div>
+                </div> 
+            </div>       
+            <div class="card_bottom">
+                <div class="bottom-card-content">
+                    {% if out_of_stock_products == 0 and out_of_stock_components == 0 %}
+                         <div><img src="{% static 'in_stock.svg' %}" alt="Logo" class="in_stock-icon"></div>
+                    {% else %}
+                        <div><img src="{% static 'out_of_stock.svg' %}" alt="Logo" class="in_stock-icon"></div>
+                    {% endif %}
+                    <div style="margin-left:20px;margin-right:20px; margin-top:10px; font-weight:900">Inventory Stock Alerts</div>
+                    {% if out_of_stock_products == 0 and out_of_stock_components == 0 %}
+                        <div><img src="{% static 'in_stock.svg' %}" alt="Logo" class="in_stock-icon"></div>
+                    {% else %}
+                        <div><img src="{% static 'out_of_stock.svg' %}" alt="Logo" class="in_stock-icon"></div>
+                    {% endif %}
+                </div>                
+            </div>
+        </div>
+
+{% comment %} Card 2 Cost of goods {% endcomment %}
+
+        <div class="card2">
+            <div class="card2_top">
+                <div class="card2-content">
+                    <canvas id="myDonutChart" width="300" height="160"></canvas>
+                    <div id="debug-data" style="display:none;">
+                        {{ data|json_script:"chart-data" }}
+                    </div>
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function() {
+                                const data = JSON.parse(document.getElementById('chart-data').textContent);
+                    
+                                console.log('Parsed Data:', data);  // Debug line to check the parsed data
+                    
+                                const ctx = document.getElementById('myDonutChart').getContext('2d');
+                    
+                                const myDonutChart = new Chart(ctx, {
+                                    type: 'doughnut',
+                                    data: {
+                                        labels: data.labels,
+                                        datasets: [{
+                                            data: data.prices,
+                                            spacing: 10, hoverOffset: 20,
+                                            backgroundColor: [
+                                                'rgba(54, 162, 235, 0.9)',
+                                                'rgba(255, 99, 132, 0.9)',
+                                                'rgba(255, 206, 86, 0.9)',
+                                                'rgba(75, 192, 192, 0.9)',
+                                                'rgba(153, 102, 255, 0.9)',
+                                                'rgba(255, 159, 64, 0.9)'
+                                            ],
+                                            borderColor: [
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(255, 206, 86, 1)',
+                                                'rgba(75, 192, 192, 1)',
+                                                'rgba(153, 102, 255, 1)',
+                                                'rgba(255, 159, 64, 1)'
+                                            ],
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        borderRadius: 5,
+                                        responsive: false,
+                                        maintainAspectRatio: true,
+                                        plugins: {legend: {display:true, position:'right'},
+                                                    tooltip: {enabled: true}
+                                        }
+
+                                    }
+                                });
+                            });
+                        </script>
+                        
+                        {% if cog_total != 0 %}
+                            <div class="donut-center">${{ cog_total }}</div>
+                        {% endif%}
+                </div>
+            </div>
+            <div class="card_bottom">
+                <div class="bottom-card-content">
+                    <div><img src="{% static 'cost_of_goods.svg' %}" alt="Logo" class="in_stock-icon"></div>
+                    <div style="margin-left:20px;margin-right:20px; margin-top:10px; font-weight:900">Cost of Goods</div> 
+                    <div><img src="{% static 'cost_of_goods.svg' %}" alt="Logo" class="in_stock-icon"></div>
+                </div>   
+            </div>
+        </div>
+        
+        
+{% comment %} Card 3 Daily Sales{% endcomment %}
+        <div class="card3">
+            <div class="card_top">
+                <div class="card2-content">
+                    <canvas id="totalSales" width="300" height="160"></canvas>
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function() {
+                                
+                                const salesCount = {{ sales_count }};
+                                var dailyGoal = {{ daily_goal }} - {{ sales_count }};
+                                if (dailyGoal < 0) {
+                                    dailyGoal = 0;
+                                }
+                                const data = {
+                                    labels: ["Sales Today", "Remaining to Goal"],
+                                    sales: [salesCount, dailyGoal]
+                                }
+                                const ctx = document.getElementById('totalSales').getContext('2d');
+                    
+                                const totalSales = new Chart(ctx, {
+                                    type: 'doughnut',
+                                    data: {
+                                        labels: data.labels,
+                                        datasets: [{
+                                            data: data.sales,
+                                            hoverOffset: 0,
+                                            backgroundColor: [
+                                                'rgba(99, 193, 138, 1)',
+                                                'rgba(200, 204, 208, 1)',
+                                            ],
+                                            borderColor: [
+                                                'rgba(99, 193, 138, 1)',
+                                                'rgba(246, 246, 246, 1)',
+                                            ],
+                                            borderWidth: 1,
+                                            cutout: '70%',
+                                            
+                                        }]
+                                    },
+                                    
+                                    options: {
+                                        circumference: 300,
+                                        borderRadius: [
+                                                        { outerStart: 20, outerEnd: 0, innerStart: 20, innerEnd: 0 },
+                                                        { outerStart: 0, outerEnd: 20, innerStart: 0, innerEnd: 20 },
+                                                    ],
+                                        
+                                        barPercentage: 0.3,
+                                        rotation:210,
+                                        responsive: false,
+                                        maintainAspectRatio: true,
+                                        plugins: {legend: {display:false},
+                                                    tooltip: {enabled: false, backgroundColor: 'rgba(0, 0, 0, 1)'}, titleColor: "#161619"
+                                        }
+                                    }
+                                });
+                            });
+                        </script>
+                        <div class="total_sales-center">{{ sales_count }}/{{ daily_goal }}</div>
+                </div>        
+            </div>
+            <div class="card_bottom">
+                <div class="bottom-card-content">
+                    <div><img src="{% static 'transaction_approved2.svg' %}" alt="Logo" class="register-icon"></div>
+                    <div style="margin-left:30px;margin-right:30px; margin-top:10px; font-weight:900">Sales Today</div> 
+                    <div><img src="{% static 'transaction_approved2.svg' %}" alt="Logo" class="register-icon"></div>
+                </div>
+            </div>
+        </div>
+
+
+        {% comment %} Card 4 All-time sales {% endcomment %}
+        <div class="card4">
+            <div class="card_top">
+                <div class="card2-content">
+                    <canvas id="allSales" width="300" height="160"></canvas>
+                    <div id="debug-data" style="display:none;">
+                        {{ all_sales_data|json_script:"sales-data" }}
+                    </div>
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function() {
+                                const data = JSON.parse(document.getElementById('sales-data').textContent);
+                    
+                                console.log('Parsed Data:', data); 
+                    
+                                const ctx = document.getElementById('allSales').getContext('2d');
+                    
+                                const allSales = new Chart(ctx, {
+                                    type: 'line',
+                                    data: {
+                                        labels: data.dates,
+                                        datasets: [{
+                                            data: data.sales,
+                                            spacing: 10, hoverOffset: 20,
+                                            backgroundColor: [
+                                                'rgba(255, 99, 132, 0.9)',
+                                                'rgba(54, 162, 235, 0.9)',
+                                                'rgba(255, 206, 86, 0.9)',
+                                                'rgba(75, 192, 192, 0.9)',
+                                                'rgba(153, 102, 255, 0.9)',
+                                                'rgba(255, 159, 64, 0.9)'
+                                            ],
+                                            borderColor: [
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(255, 206, 86, 1)',
+                                                'rgba(75, 192, 192, 1)',
+                                                'rgba(153, 102, 255, 1)',
+                                                'rgba(255, 159, 64, 1)'
+                                            ],
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        borderRadius: 5,
+                                        responsive: true,
+                                        maintainAspectRatio: true,
+                                        plugins: {legend: {display:false}
+                                        
+                                        }
+
+                                    }
+                                });
+                            });
+                        </script>
+                        <div class="total_sales-pos">Total Sales: {{ all_time_sales_count }}</div>
+                </div>    
+            </div>
+            <div class="card_bottom">
+                <div class="bottom-card-content">
+                    <div><img src="{% static 'number_of_sales.svg' %}" alt="Logo" class="in_stock-icon"></div>
+                    <div style="margin-left:30px;margin-right:30px; margin-top:10px; font-weight:900">Total Sales</div> 
+                    <div><img src="{% static 'number_of_sales.svg' %}" alt="Logo" class="in_stock-icon"></div>
+                </div>
+            </div>
+        </div>
+    </div>        
+
+    <div class="dashboard-first-row-container">
+           {% comment %} Total revenue/avg order value {% endcomment %}
+            <div class="card5">
+                <div class="card_top">
+                    <div class="card2-content">
+                        
+                    </div>    
+                </div>
+            
+                <div class="card_bottom">
+                    <div class="bottom-card-content">
+                        
+                        <div style="margin-left:20px;margin-right:20px; margin-top:10px; font-weight:900">Revenue & Profit Today</div> 
+                        
+                    </div>
+                </div>
+            </div>
+
+        {% comment %} Net profit {% endcomment %}
+        <div class="card6">
+                <div class="card_top">
+                    <div class="card2-content">
+                    
+                    </div>    
+                </div>
+            
+                <div class="card_bottom">
+                    <div class="bottom-card-content">
+                        
+                        <div style="margin-left:20px;margin-right:20px; margin-top:10px; font-weight:900">Total Revenue & Average Order Value</div> 
+                        
+                    </div>
+                </div>
+        </div>
+
+
+    </div>
+        {% endblock %}

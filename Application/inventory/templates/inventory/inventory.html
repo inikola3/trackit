@@ -1,0 +1,123 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Inventory
+{% endblock %}
+
+{% block content %}
+    <div class="inv_page_container">
+        {% if product_count == 0 %}
+            <div >
+                <h2>
+                    No Products Available in Inventory <br>  
+                </h2>
+                <div class="empty-inventory_page-form" >
+                    <img src="{% static 'empty_inv.svg' %}" alt="Logo" class="empty_inv_svg">
+                </div >
+                <a href="{% url 'inventory:add_product' %}">
+                    <button class="btn inv-add" onclick="location.href='/inventory/add_product';" >Add Product</button>
+                </a>
+            </div>
+        {% else %}
+            <div class="inv_page_container-stats">
+                <div class="left-group">
+                    <div class="inventory_page-form-small" >
+                        <p class="stat_title">
+                            Product Count
+                        </p>
+                        <p class="stat_number">
+                            {{ product_count }}
+                        </p>
+                    </div>
+                    <div class="inventory_page-form-small" >
+                        <p class="stat_title">
+                            Out of Stock
+                        </p>
+                        <p class="stat_number">
+                            {{ out_of_stock }}
+                        </p>
+                    </div>
+                </div>
+                <div class="right-group" style="transform: translate(5%, 0%);">
+                    <div class="inventory_page-form-small" style="float:right;">
+                        <p class="stat_title">
+                            Total Units to Sell
+                        </p>
+                        <p class="stat_number">
+                            {{ quantity_total }}
+                        </p>
+                    </div>
+                    <div class="inventory_page-form-small" style="align-self: end;">
+                        <p class="stat_title">
+                            Total Inventory Value
+                        </p>
+                        <p class="stat_number">
+                            ${{ total_value }}
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="inventory_page-form">
+                <div class="svg-container">
+                    <img src="{% static 'clip_vector.svg' %}" alt="" class="clip_vector">
+                </div>
+                <div class="inv-btn-container">
+                    <a href="{% url 'inventory:add_product' %}">
+                        <button class="btn inv-add" onclick="location.href='/inventory/add_product';" >Add Product</button>
+                    </a>
+                    <button id="delete_button" type="button" class = 'btn inv-delete'>Delete Selected</button>   
+                </div>
+                <form id="delete_form" method="post" action="{% url 'inventory:inventory' %}" enctype="multipart/form-data">
+                    {% csrf_token %}    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 3%;"></th>
+                                <th style="width: 7%;"></th>
+                                <th style="width: 50%;">Name</th>
+                                <th style="width: 16%;">Price</th>
+                                <th style="width: 12%;">Quantity</th>
+                                <th style="width: 12%;">Available</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in products %}
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" class="form-check-input-select" name="selected_products" value="{{ product.id }}">
+                                    </td>
+                                    <td>
+                                        <a class="no_underline" href="{% url 'inventory:product_page' id=product.id name=product.name %}">
+                                            <img src="{{ product.product_image.url }}" alt="📦" class="default_product_icon">
+                                        </a>
+                                    </td>    
+                                    <td>
+                                        <a class="no_underline" href="{% url 'inventory:product_page' id=product.id name=product.name %}">
+                                            {{ product.name }}
+                                        </a>
+                                    </td>
+                                    <td>${{ product.price }}</td>
+                                    <td>{{ product.quantity }}</td>    
+                                    <td>{% if product.in_stock == True %}<img src="{% static 'check.svg' %}" alt="Logo" class="boolean_icon">
+                                        {% else %}
+                                        <img src="{% static 'x.svg' %}" alt="Logo" class="boolean_icon">
+                                        {% endif %}
+                                    </td>    
+                                </tr>  
+                            {% endfor %}
+                        </tbody>
+                    </table>       
+                </form>                
+        {% endif %}
+            </div>
+    </div>
+
+    <script>
+        document.getElementById('delete_button').addEventListener('click', function() {
+            document.getElementById('delete_form').submit();
+        });
+    </script>
+{% endblock %}

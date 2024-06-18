@@ -1,0 +1,112 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Add Component
+{% endblock %}
+{% block body_class %} 
+    class="body-add-product-page"
+{% endblock %}
+
+{% block content %}
+    <div class="add_product_container">
+        <form method="post" enctype="multipart/form-data" novalidate id="product-form">
+            {% csrf_token %}
+            <div class="inventory_page_mid">
+                <div style="float:left; font-weight:700">Component Image</div>
+            </div>
+            <div class="add-page-banner"> 
+                <div class="banner_add_image_field">
+                     <img src={% static 'product_add_default.svg' %}  alt="📦" class="product_add_page_icon" id="current-image" style="max-width: 200px;">
+                     <input type="file" id="id_product_image" name="product_image" style="display:none;">
+                </div>  
+                <div class="banner_name_field">
+                     Add Component Image
+                </div>
+            </div>
+            <div class="inventory_page_mid">
+                <div style="float:left; font-weight:700">Component Info</div>
+            </div>
+            <div class="inventory_add-page-form"> 
+                <div class="input-group">
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            {{ form.name }}
+                        </div>
+                     </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {{ form.quantity }}{{form.unit}}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            {{ form.price }}
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>        
+        </form>     
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('product-form');
+    
+        form.addEventListener('submit', function(event) {
+            const requiredFields = form.querySelectorAll('input[required], select[required], textarea[required]');
+            let valid = true;
+    
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.classList.add('invalid');
+                    valid = false;
+                } else {
+                    field.classList.remove('invalid');
+                }
+            });
+    
+            if (!valid) {
+                event.preventDefault();
+            }
+        });
+    
+        const requiredFields = form.querySelectorAll('input[required], select[required], textarea[required]');
+        requiredFields.forEach(field => {
+            field.addEventListener('input', function() {
+                if (field.value.trim()) {
+                    field.classList.remove('invalid');
+                } else {
+                    field.classList.add('invalid');
+                }
+            });
+        });
+    });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const imageElement = document.getElementById("current-image");
+            const fileInputElement = document.getElementById("id_product_image");
+    
+            if (imageElement && fileInputElement) {
+                imageElement.addEventListener("click", function() {
+                    fileInputElement.click();
+                });
+    
+                fileInputElement.addEventListener("change", function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            imageElement.src = e.target.result;
+                        }
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 504.2151 549.8966">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke-width: 26px;
+      }
+
+      .cls-1, .cls-2 {
+        stroke-linejoin: round;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        fill: none;
+        stroke-linecap: round;
+      }
+
+      .cls-1, .cls-2, .cls-4 {
+        stroke: #121216;
+      }
+
+      .cls-5 {
+        fill: #63c189;
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        stroke-width: 13px;
+      }
+
+      .cls-3 {
+        stroke: #fff;
+        stroke-width: 45.9836px;
+      }
+
+      .cls-3, .cls-4 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-4 {
+        stroke-width: 59px;
+      }
+    </style>
+  </defs>
+  <circle class="cls-5" cx="252.1076" cy="297.789" r="239.0824"/>
+  <path class="cls-1" d="M450.8806,164.9369c73.3722,109.7793,43.8584,258.2529-65.9209,331.6252-109.7793,73.3722-258.2529,43.8584-331.6252-65.9209C-20.0377,320.8619,9.4761,172.3882,119.2554,99.016c64.9645-43.4198,143.4796-50.8092,211.9627-26.8562"/>
+  <path class="cls-2" d="M267.8316,501.7109c-56.7726,3.4046-109.4497-17.1145-148.2052-52.8434"/>
+  <path class="cls-4" d="M96.975,299.0736s45.5617,94.9203,110.1075,125.2948c64.5458,30.3745,231.6055-394.8684,231.6055-394.8684"/>
+  <path class="cls-3" d="M96.975,299.0736s45.5617,94.9203,110.1075,125.2948c64.5458,30.3745,231.6055-394.8684,231.6055-394.8684"/>
+</svg>

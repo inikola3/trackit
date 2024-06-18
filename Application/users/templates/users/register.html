@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+            Register
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap">
+    <script>
+        {% block script %}
+        {% endblock %}
+    </script>
+</head>
+
+<body>
+    <header class="landing-header">
+        <div>
+            <a href="/">    
+                <img src="{% static 'trackit.svg' %}" alt="Logo" class="landing-logo">
+            </a>    
+        </div>
+    </header>  
+    <div class="logo-line"></div>
+    <div class="container">
+        <div class="page-form">
+            <h2 style="font-size:35px; text-align:center;">Register</h2>
+            <h3 style="text-align:center;">Create a free account</h3>
+            <div class="input-group">
+                <form class="" action="/users/register/" method="post" novalidate> 
+                    {% csrf_token %}
+                    {{ form }}
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+                <h3>Already a member?<a href="{% url 'users:login' %}"> <span style="color:#63c189"> Sign in → </span></a> </h3>
+            </div>    
+        </div>    
+    </div>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
