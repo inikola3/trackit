@@ -4,19 +4,27 @@
     Scented Candle Calculator
 {% endblock %}
 
+{% block header %}
+    Wax-FO Calculator
+{% endblock %}
 {% block script %}
 
 function calculateSum() {
     var containerSize = parseFloat(document.getElementById('container-size').value);
     var fragranceLoad = parseFloat(document.getElementById('fragrance-load').value);
     if (isNaN(containerSize) || isNaN(fragranceLoad)) {
-        document.getElementById('result').textContent = 'Please enter valid numbers';
+        document.getElementById('noResult').textContent = 'Please enter valid numbers';
+        document.getElementById('result').textContent = '';
+        document.getElementById('result2').textContent = '';
+        document.getElementById('noResult').style.visibility = "visible";
     } else {
         var wax = containerSize/(1 + (fragranceLoad/100));
         var fo = containerSize - wax;
 
+        document.getElementById('noResult').textContent = '';
         document.getElementById('result').textContent = wax.toFixed(2) + 'oz';
         document.getElementById('result2').textContent = fo.toFixed(2) + 'oz';
+        document.getElementById('noResult').style.visibility = "hidden";
     }
 }
 
@@ -24,30 +32,28 @@ function calculateSum() {
 
 
 {% block content %}
+
+
 <div class="container">
-    <p class="positioned-text">Scented Candle Wax/Fragrance Calculator</p>
-</div>
-<div class="container">
-    <div class="page-form">
-        <div class="input-group">
-            <label for="container-size">Container size</label>
-            <input type="text" id="container-size" class="input-field">
+    <h2 style="text-align:center;">Calculate the Wax/Fragrance amount</h2>
+        <div class="input-group-calc">
+            <input required type="text" id="container-size"  placeholder="Container Size">
             <span class="input-unit">oz</span>
         </div>
-        <div class="input-group">
-            <label for="fragrance-load">Fragrance load</label>
-            <input type="text" id="fragrance-load" class="input-field">
+        <div class="input-group-calc">
+            <input required type="text" id="fragrance-load"  placeholder="Fragrance Load">
             <span class="input-unit2">%</span>
         </div>
         <button onclick="calculateSum()" class="calculate-btn">Calculate</button>
         
-        <div id="result" class="res1"></div>
-
-        <div id="result2" class="res2"></div>
-        <a>
+        <div id="noResult" class="no-res-container"></div>    
+        <div class="res-container">
+            <div id="result" class="res1"></div>
+            <div id="result2" class="res2"></div> 
+        </div>    
+        <span>
             <img src="{% static 'wax-fo2.svg' %}" alt="Logo" class="wax_fo_svg">
-        </a>
-    </div>
+        </span>
 </div>
 {% endblock %}
 

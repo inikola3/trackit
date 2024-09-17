@@ -13,7 +13,7 @@
             Inventory App
         {% endblock %}
     </title>
-    <link rel="icon" type="image/svg" href="{% static 'logo.svg' %}">
+    <link rel="icon" type="image/svg" href="{% static 'logo1.svg' %}">
     {% block bootstrap %}
 
     {% endblock %}
@@ -26,65 +26,100 @@
     </script>
 </head>
 
-<body {% block body_class %} {% endblock %}>
-        <div class="navbar">
-            <div class:"sidebar-logo">
-                <a href="{% url 'dashboard:dashboard' %}">
-                    <img src="{% static 'logo.svg' %}" alt="Logo" class="sidebar-logo">
-                </a> 
-            </div>
-            <div class="sidebar-name"> trackit </div>   
-            <div class="icon-container">
-                <div class="icon">
-                    <a href="{% url 'dashboard:dashboard' %}">                   
-                        <img src="{% static 'clipboard_simple.svg' %}" alt="Logo" class="logo3" title="Dashboard"> 
-                        <p class="icon1_text">Dashboard</p>     
-                    </a>
-                </div>     
-                <div class="icon">
-                    <a href="{% url 'inventory:inventory' %}">
-                        <img src="{% static 'inventory3.svg' %}" alt="Logo" class="logo4" title="Inventory">
-                        <div class="icon2_text">Inventory</div>
-                    </a>
-                </div>
-                <div class="icon">
-                    <a href="{% url 'inventory:components' %}">
-                        <img src="{% static 'components_icon2.svg' %}" alt="Logo" class="logo4" title="Components" style="width: 50px; height: 50px; transform: translate(5px,-8px);">
-                        <div class="icon2_text" style="transform: translate(50px,-42px);">Components</div>
-                    </a>
-                </div>
-                <div class="icon">
-                    <a href="{% url 'calculator:calculator' %}">
-                        <img src="{% static 'calculator.svg' %}" alt="Logo" class="logo2" title="Calculator">
-                        <p class="icon3_text">Wax Calculator</p>
-                    </a>
-                </div>    
-                <!-- Add more icons here -->
-            </div>
+<body {% block body_class %}  {% endblock %}>
+    <div class="toggle-button" id="toggleButton">
+        <img src="{% static 'dashboard+2.svg' %}" id="toggleIcon" class="toggle-icon">
+    </div>    
+    <div class="navbar" id="navbar">
+        <div class="sidebar-logo-container">
+            <a href="{% url 'dashboard:dashboard' %}">
+                <img src="{% static 'logo1.svg' %}" alt="Logo" class="sidebar-logo">
+            </a> 
         </div>
-
-        <header class="header">
-            <div class="page-name"> 
-                <div class="page-name-container">  
-                {% block header %}
-
-                {% endblock %}
-                </div>
+        <div class="sidebar-name"> trackit </div>   
+        <div class="icon-container">
+            <div class="icon">
+                <a href="{% url 'dashboard:dashboard' %}">                   
+                    <img src="{% static 'clipboard_simple.svg' %}" alt="Logo" class="logo3" title="Dashboard"> 
+                    <p class="icon1_text">Dashboard</p>     
+                </a>
+            </div>     
+            <div class="icon">
+                <a href="{% url 'inventory:inventory' %}">
+                    <img src="{% static 'inventory3.svg' %}" alt="Logo" class="logo4" title="Inventory">
+                    <div class="icon2_text">Inventory</div>
+                </a>
             </div>
-            <div>
-                <form action ="{% url 'users:logout' %}" method="post">
-                    {% csrf_token %}   
-                    <button class="signin-btn">Sign-Out</button>
-                </form>
+            <div class="icon">
+                <a href="{% url 'inventory:components' %}">
+                    <img src="{% static 'components_icon2.svg' %}" alt="Logo" class="logo4" title="Components" style="width: 50px; height: 50px; transform: translate(5px,-8px);">
+                    <div class="icon2_text" style="transform: translate(50px,-42px);">Components</div>
+                </a>
             </div>
-        </header> 
-        <div class="logo-line">
+            <div class="icon">
+                <a href="{% url 'calculator:calculator' %}">
+                    <img src="{% static 'calculator.svg' %}" alt="Logo" class="logo2" title="Calculator">
+                    <p class="icon3_text">Wax Calculator</p>
+                </a>
+            </div>    
+            <!-- Add more icons here -->
         </div>
-        <div class="main-content">
-            {% block content %}
+        <div class="header-button-container">
+            <form action ="{% url 'users:logout' %}" method="post">
+                {% csrf_token %}   
+                <button class="signin-btn">Sign-Out</button>
+            </form>
+        </div>
+    </div>
+    <header class="header">
+        {% comment %} <div class="page-name">  {% endcomment %}
+            
+            <div class="page-name-container">  
+            {% block header %}
+
             {% endblock %}
+            </div>
+        {% comment %} </div> {% endcomment %}
+        <div class="header-button-container">
+            <form action ="{% url 'users:logout' %}" method="post">
+                {% csrf_token %}   
+                <button class="signin-btn">Sign-Out</button>
+            </form>
         </div>
+    </header>
+     
+    <div class="main-content">
+        {% block content %}
+        {% endblock %}
+    </div>
 </body>
+
+<script>
+    {% comment %} let btn = document.querySelector('#navbar-selector')
+    let navbar = document.querySelector('.navbar')
+
+    btn.onclick = function(){
+        navbar.classList.toggle('active');
+
+    }; {% endcomment %}
+    document.getElementById('toggleButton').addEventListener('click', function() {
+        var navbar = document.getElementById('navbar');
+        var body = document.body;
+        var button = document.getElementById('toggleButton');
+        var icon = document.getElementById('toggleIcon');
+
+        navbar.classList.toggle('active');
+        body.classList.toggle('noscroll');
+        button.classList.toggle('active');
+        icon.classList.toggle('toggle-icon-animate');
+
+        {% comment %} if (navbar.classList.contains('active')) {
+            button.textContent = '✖';
+        } else {
+            button.textContent = '☰';
+        } {% endcomment %}
+    });
+</script>
 
 <form_body> 
 </form_body>

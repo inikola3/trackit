@@ -35,6 +35,6 @@ class Component(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control-components', 'placeholder': 'Name'}),#, 'style' : 'width:100%;''float:left;'}),
             'unit': forms.Select(attrs={'class': 'form-dropdown'}),#, 'style' : 'width:50%;' 'float:right;'}),
-            'quantity': forms.TextInput(attrs={'class': 'form-control-component_quant', 'placeholder': 'Quantity' }),
+            'quantity': forms.TextInput(attrs={'class': 'form-control-components', 'placeholder': 'Quantity' }),
             'price': forms.TextInput(attrs={'class': 'form-control-components', 'placeholder': 'Price per unit'}),            
         }

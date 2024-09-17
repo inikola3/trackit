@@ -9,7 +9,7 @@
             Inventory Management
         {% endblock %}
     </title>
-    <link rel="icon" type="image/svg" href="{% static 'logo.svg' %}">
+    <link rel="icon" type="image/svg" href="{% static 'logo1.svg' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap">
     <script>
@@ -17,28 +17,37 @@
         {% endblock %}
     </script>
 </head>
-
+   
 <body class='body-landing-page'>
     <header class="landing-header">
         <div>    
-            <img src="{% static 'trackit.svg' %}" alt="Logo" class="landing-logo">
+            <img src="{% static 'logo1.svg' %}" alt="Logo" class="landing-logo">
         </div>
-        {% comment %} <div class ="login_container">
-            <button onclick="location.href='users/login/';" class="signin-btn">Sign-In</button>
-            <button onclick="location.href='users/register/';" class="register-btn">Register</button>
+        {% comment %} <div>    
+            <img src="{% static 'trackit.svg' %}" alt="Logo" class="landing-logo" style="width: 120px;">
         </div> {% endcomment %}
+        
     </header>  
-    <div class="logo-line"></div>
+    {% comment %} <div class="logo-line"></div> {% endcomment %}
     <div class="landing-page_container">  
         <div class="landing-page-left">
-            <p class="positioned-text-home">Effortlessly streamline your inventory management with our innovative <span style="color:#63c189">tracking app.</span></p>
+            <p class="positioned-text-home">Effortlessly streamline your inventory management {% comment %}<span style="color:#63c189">tracking app.</span>{% endcomment %}</p> 
             <button onclick="location.href='users/login/';" class="get-started-btn">Get Started <img src="{% static 'arrow.svg' %}" alt="Logo" class="arrow-svg"></button> {% comment %}<span class="btn-arrow">→</span></button>{% endcomment %}
         </div> 
         <div class="landing-page-right">
             <a>
-                <img src="{% static 'Home_Page_Green.svg' %}" alt="Logo" class="home_page_svg">
+                <img src="{% static 'landing-mobile1.svg' %}" alt="Logo" class="home_page_svg">
             </a> 
         </div>   
+    </div>
+    <div class="landing-page_container-mobile">  
+        <div class="landing-page-right">
+            <a>
+                <img src="{% static 'landing-mobile1.svg' %}" alt="Logo" class="home_page_svg">
+            </a> 
+        </div> 
+        <p class="positioned-text-home">Effortlessly streamline your inventory management{% comment %}<span style="color:#9eddb7">tracking app.</span>{% endcomment %}</p> 
+        <button onclick="location.href='users/login/';" class="get-started-btn">Get Started <img src="{% static 'arrow.svg' %}" alt="Logo" class="arrow-svg"></button>
     </div>
     {% block content %}
     {% endblock %}

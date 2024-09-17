@@ -11,6 +11,7 @@
     </title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap">
+    <link rel="icon" type="image/svg" href="{% static 'logo1.svg' %}">
     <script>
         {% block script %}
         {% endblock %}
@@ -21,27 +22,36 @@
     <header class="landing-header">
         <div>
             <a href="/">    
-                <img src="{% static 'trackit.svg' %}" alt="Logo" class="landing-logo">
+                <img src="{% static 'logo1.svg' %}" alt="Logo" class="landing-logo">
             </a>    
         </div>
     </header>  
-    <div class="logo-line"></div>
-    <div class="container">
-        <div class="page-form">
-            <h2 style="font-size:35px; text-align:center;">Sign in to your account</h2>
-            <div class="input-group">
-                <form class="" action="/users/login/" method="post" novalidate> 
-                    {% csrf_token %}
-                    {{ form }}
-                    <button type="submit" class="btn btn-primary" style="width:50%;">Enter →</button>
-                </form>
-                <h3>Not a member?<a href="{% url 'users:register' %}"> <span style="color:#63c189"> Register → </span></a> </h3>
-            </div>    
-        </div>    
+    
+    <div class="login_page-container">
+        <div class="login-page-left">
+            {% comment %} <div class='login_svg'> {% endcomment %}
+                <img src="{% static 'login.svg' %}" class='login_svg'>
+                <img src="{% static 'login_mobile.svg' %}" class='login_mobile_svg'>
+            {% comment %} </div>   {% endcomment %}
+        </div> 
+        <div class="login-page-right">
+            <div class="page-form">
+                <h2 class="login_header">Sign in</h2>
+                <div class="input-group">
+                    <form class="" action="/users/login/" method="post" novalidate> 
+                        {% csrf_token %}
+                        {{ form }}
+                        <button type="submit" class="btn btn-primary" style="width:80%; margin-top:10px; border-radius: 30px;">Enter →</button>
+                    </form>
+                    <h3>Not a member?<a href="{% url 'users:register' %}"> <span style="color:#63c189"> Register → </span></a> </h3>
+                </div>    
+            </div>
+        </div>
+    
     </div>
     {% block content %}
     {% endblock %}
-    
+
 </body>
 </html>
 

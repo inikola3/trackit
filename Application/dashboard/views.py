@@ -24,7 +24,8 @@ def webhook(request):
             print("Received data:", data)
 
             order = data.get('order')
-            if order:
+            order_value = data.get('current_total_price')
+            if order:               
                 today = datetime.date.today()
                 user = User.objects.get(id=1)
                 sales_record, created = DailySales.objects.get_or_create(date=today, user=user)
@@ -87,8 +88,15 @@ def dashboard(request):
       'dates' : [str(sale.date) for sale in all_time_sales],
       'sales' : [sale.sales_count for sale in all_time_sales]
    }
-
-
+   
+   total_orders_value = 0
+   for sale in all_time_sales:
+        total_orders_value += sale.order_value    
+   
+   if all_time_sales_count > 0:
+        average_order_value = total_orders_value/all_time_sales_count
+   else:
+       average_order_value = 0.00 
    return render(request, 'dashboard/dashboard.html',
                  {'out_of_stock_products':out_of_stock_products,
                   'out_of_stock_components':out_of_stock_components,
@@ -99,7 +107,9 @@ def dashboard(request):
                   'sales_count': sales_count,
                   'daily_goal': daily_goal,
                   'all_sales_data':all_sales_data,
-                  'all_time_sales_count':all_time_sales_count  
+                  'all_time_sales_count':all_time_sales_count,
+                  'average_order_value':average_order_value 
+
                   })
 
 

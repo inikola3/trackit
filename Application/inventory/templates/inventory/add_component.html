@@ -4,8 +4,8 @@
 {% block title %}
     Add Component
 {% endblock %}
-{% block body_class %} 
-    class="body-add-product-page"
+{% block header %} 
+    Add Component
 {% endblock %}
 
 {% block content %}
@@ -28,7 +28,7 @@
                 <div style="float:left; font-weight:700">Component Info</div>
             </div>
             <div class="inventory_add-page-form"> 
-                <div class="input-group">
+                <div class="input-group-inv">
                     <div class="form-row">
                         <div class="form-group col-6">
                             {{ form.name }}
@@ -37,7 +37,10 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            {{ form.quantity }}{{form.unit}}
+                            {{ form.quantity }}
+                        </div>
+                        <div style="transform: translateY(-21px);">
+                            {{form.unit}}
                         </div>
                     </div>
                     <div class="form-row">

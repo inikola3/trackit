@@ -5,10 +5,14 @@
     Inventory
 {% endblock %}
 
+{% block header %}
+    Inventory
+{% endblock %}
+
 {% block content %}
     <div class="inv_page_container">
         {% if product_count == 0 %}
-            <div >
+            <div class="empty-inventory-container">
                 <h2>
                     No Products Available in Inventory <br>  
                 </h2>
@@ -39,8 +43,8 @@
                         </p>
                     </div>
                 </div>
-                <div class="right-group" style="transform: translate(5%, 0%);">
-                    <div class="inventory_page-form-small" style="float:right;">
+                <div class="right-group" >
+                    <div class="inventory_page-form-small">
                         <p class="stat_title">
                             Total Units to Sell
                         </p>
@@ -111,13 +115,57 @@
                         </tbody>
                     </table>       
                 </form>                
-        {% endif %}
+        {% comment %} {% endif %} {% endcomment %}
             </div>
+            
+            <div class="inventory_page-form-optons">
+                <h2 style="text-align:left;">Products</h2>
+                <div class="inv-btn-container">
+                    <a href="{% url 'inventory:add_product' %}">
+                        <button class="btn inv-add" onclick="location.href='/inventory/add_product';" >Add Product</button>
+                    </a>
+                    <button id="delete_button-mobile" type="button" class = 'btn inv-delete'>Delete Selected</button>   
+                </div>
+            </div>
+            
+            <div class="inventory_page-form-mobile">               
+                <form id="delete_form-mobile" method="post" action="{% url 'inventory:inventory' %}" enctype="multipart/form-data">
+                    {% csrf_token %}    
+                    {% for product in products %}
+                    <div class="inventory-product-card"> 
+                        <div class="inventory-product-card-left-group">        
+                            <input type="checkbox" class="form-check-input-select" name="selected_products" value="{{ product.id }}">
+                            <a class="no_underline" href="{% url 'inventory:product_page' id=product.id name=product.name %}">
+                                <img src="{{ product.product_image.url }}" alt="📦" class="default_product_icon">
+                            </a>
+                        </div>    
+                        <div class="inventory-product-card-info">
+                            <a class="no_underline" href="{% url 'inventory:product_page' id=product.id name=product.name %}">
+                                {{ product.name }}
+                            </a>
+                            <span>${{ product.price }}</span>
+                            <span>Quantity: {{ product.quantity }}</span>    
+                        </div>
+                        <div>  
+                        {% if product.in_stock == True %}
+                            <img src="{% static 'check.svg' %}" alt="Logo" class="boolean_icon">
+                        {% else %}
+                            <img src="{% static 'x.svg' %}" alt="Logo" class="boolean_icon">
+                        {% endif %} 
+                        </div>
+                    </div> 
+                    {% endfor %}
+                </form>                
+            </div>
+        {% endif %}
     </div>
 
     <script>
         document.getElementById('delete_button').addEventListener('click', function() {
             document.getElementById('delete_form').submit();
+        });
+        document.getElementById('delete_button-mobile').addEventListener('click', function() {
+            document.getElementById('delete_form-mobile').submit();
         });
     </script>
 {% endblock %}

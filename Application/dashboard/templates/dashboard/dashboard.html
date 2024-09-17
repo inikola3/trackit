@@ -68,7 +68,7 @@
 {% comment %} Card 2 Cost of goods {% endcomment %}
 
         <div class="card2">
-            <div class="card2_top">
+            <div class="card_top">
                 <div class="card2-content">
                     <canvas id="myDonutChart" width="300" height="160"></canvas>
                     <div id="debug-data" style="display:none;">
@@ -274,19 +274,19 @@
         </div>
     </div>        
 
-    <div class="dashboard-first-row-container">
+    <div class="dashboard-first-row-container" style="margin-top:20px;">
            {% comment %} Total revenue/avg order value {% endcomment %}
             <div class="card5">
                 <div class="card_top">
                     <div class="card2-content">
-                        
+                        <div class="total_sales-center">${{ average_order_value }}</div>
                     </div>    
                 </div>
             
                 <div class="card_bottom">
                     <div class="bottom-card-content">
                         
-                        <div style="margin-left:20px;margin-right:20px; margin-top:10px; font-weight:900">Revenue & Profit Today</div> 
+                        <div style="margin-left:20px;margin-right:20px; margin-top:10px; font-weight:900">Average Order Value</div> 
                         
                     </div>
                 </div>
@@ -296,14 +296,14 @@
         <div class="card6">
                 <div class="card_top">
                     <div class="card2-content">
-                    
+                        <div class="total_sales-center">$</div>
                     </div>    
                 </div>
             
                 <div class="card_bottom">
                     <div class="bottom-card-content">
                         
-                        <div style="margin-left:20px;margin-right:20px; margin-top:10px; font-weight:900">Total Revenue & Average Order Value</div> 
+                        <div style="margin-left:20px;margin-right:20px; margin-top:10px; font-weight:900">Total Revenue</div> 
                         
                     </div>
                 </div>

@@ -5,8 +5,12 @@
     Add Product
 {% endblock %}
 
+{% block header %}
+    Add Product
+{% endblock %}
+
 {% block body_class %} 
-    class="body-add-product-page"
+    {% comment %} class="body-add-product-page" {% endcomment %}
 {% endblock %}
 
 {% block content %}
@@ -29,7 +33,7 @@
                 <div style="float:left; font-weight:700">Product Info</div>
             </div>
             <div class="inventory_add-page-form">
-                <div class="input-group">
+                <div class="input-group-inv">
                     <div class="form-row">
                         <div class="form-group col-6">
                             {{ form.name }}
@@ -58,11 +62,11 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6" >
                             {{ form.quantity }}
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="{{ form.in_stock.id_for_label }}" style="align-self:center;">Available</label>
+                        <div class="form-group col-md-6" style='transform: translateY(-25px);'>
+                            <label for="{{ form.in_stock.id_for_label }}" >Available</label>
                             {{ form.in_stock }}
                         </div>
                     </div>
