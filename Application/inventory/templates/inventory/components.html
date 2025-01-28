@@ -2,153 +2,336 @@
 {% load static %}
 
 {% block title %}
-    Components
+    Materials
 {% endblock %}
 
 {% block header %}
-    Components
+    Materials
 {% endblock %}
 
 {% block content %}
-    <div class="inv_page_container">
-        {% if component_count == 0 %}
-            <div class="empty-inventory-container">
-                <h2>
-                    No Components Available in Inventory <br>  
-                </h2>
-                <div class="empty-inventory_page-form" >
-                    <img src="{% static 'empty_inv.svg' %}" alt="Logo" class="empty_inv_svg">
-                </div >
-                <a href="{% url 'inventory:add_component' %}">
-                    <button class="btn inv-add" onclick="location.href='/inventory/add_component';" >Add Component</button>
-                </a>
+<div class="inv_page_container">
+    {% if component_count == 0 %}
+        <div class="empty-inventory-container">
+            <h2>
+                No Materials Available in Inventory <br>  
+            </h2>
+            <div class="empty-inventory_page-form" >
+                <img src="{% static 'empty_inv.svg' %}" alt="Logo" class="empty_inv_svg">
+            </div >
+            <div>
+                <a href="{% url 'inventory:add_component' %}" class="btn">Add Material</a>
             </div>
-        {% else %}
-            <div class="inv_page_container-stats">
-                <div class="left-group">
-                    <div class="inventory_page-form-small" >
-                        <p class="stat_title">
-                            Count
-                        </p>
-                        <p class="stat_number">
-                            {{ component_count }}
-                        </p>
-                    </div>
-                    <div class="inventory_page-form-small" >
-                        <p class="stat_title">
-                            Out of Stock
-                        </p>
-                        <p class="stat_number">
-                            {{ out_of_stock }}
-                        </p>
-                    </div>
+        </div>
+    {% else %}
+        <div class="inv_page_container-stats">
+            <div class="left-group">
+                <div class="inventory_page-form-small" >
+                    <p class="stat_title">
+                        Count
+                    </p>
+                    <p class="stat_number">
+                        {{ component_count }}
+                    </p>
+                </div>
+                <div class="inventory_page-form-small" >
+                    <p class="stat_title">
+                        Out of Stock
+                    </p>
+                    <p class="stat_number">
+                        {{ out_of_stock }}
+                    </p>
                 </div>
             </div>
-                
-            <div class="inventory_page-form">
-                <div class="svg-container">
-                    <img src="{% static 'clip_vector.svg' %}" alt="" class="clip_vector">
-                </div>
-                <div class="inv-btn-container">
-                    <a href="{% url 'inventory:add_component' %}">
-                        <button class="btn inv-add" onclick="location.href='/inventory/add_component';" >Add Component</button>
-                    </a>
-                    <button id="delete_button" type="button" class = 'btn inv-delete'>Delete Selected</button>   
-                </div> 
-                <form id="delete_form" method="post" action="{% url 'inventory:components' %}" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <table>
-                        <thead>
-                            <tr>
-                                <th style="width: 3%;"></th>
-                                <th style="width: 7%;"></th>
-                                <th style="width: 50%;">Name</th>
-                                <th style="width: 16%;">Quantity</th>
-                                <th style="width: 12%;">Price Per Unit</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for component in components %}
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" class="form-check-input-select" name="selected_components" value="{{ component.id }}">
-                                    </td>
-                                    <td>
-                                        <a class="no_underline" href="{% url 'inventory:component_page' id=component.id name=component.name %}">
-                                            <img src="{{ component.component_image.url }}" alt="📦" class="default_product_icon">
-                                        </a>
-                                    </td>    
-                                    <td>
-                                        <a class="no_underline" href="{% url 'inventory:component_page' id=component.id name=component.name %}">
-                                            {{ component.name }}
-                                        </a>
-                                    </td>
-                                    <td>{% if component.unit == 'Ct' %} 
-                                            {{ component.quantity }}
-                                        {% else %}
-                                            {{ component.quantity }}{{ component.unit}}
-                                        {% endif %}
-                                    </td>
-                                    <td>${{ component.price }}</td>  
-                                </tr>    
-                            {% endfor %}
-                        </tbody>
-                    </table>  
-                </form>
-                
-            </div>
-
-            {% comment %} Mobile Layout {% endcomment %}
-            <div class="inventory_page-form-optons">
-                <h2 style="text-align:left;">Components</h2>
-                <div class="inv-btn-container">
-                    <a href="{% url 'inventory:add_component' %}">
-                        <button class="btn inv-add" onclick="location.href='/inventory/add_component';" >Add Component</button>
-                    </a>
-                    <button id="delete_button-mobile" type="button" class = 'btn inv-delete'>Delete Selected</button>   
-                </div>
-            </div>
+        </div>
             
-            <div class="inventory_page-form-mobile">               
-                <form id="delete_form-mobile" method="post" action="{% url 'inventory:components' %}" enctype="multipart/form-data">
-                    {% csrf_token %}    
-                    {% for component in components %}
-                        <div class="inventory-product-card"> 
-                            <div class="inventory-product-card-left-group">        
-                                <input type="checkbox" class="form-check-input-select" name="selected_components" value="{{ component.id }}">
-                                <a class="no_underline" href="{% url 'inventory:component_page' id=component.id name=component.name %}">
-                                    <img src="{{ component.component_image.url }}" alt="📦" class="default_product_icon">
-                                </a>
-                            </div>    
-                            <div class="inventory-product-card-info">
-                                <a class="no_underline" href="{% url 'inventory:component_page' id=component.id name=component.name %}">
-                                    {{ component.name }}
-                                </a>
-                                <span>Price: ${{ component.price }}</span>
-                                <span>
-                                    {% if component.unit == 'Ct' %} 
-                                        Quantity: {{ component.quantity }}
-                                    {% else %}
-                                        Quantity: {{ component.quantity }}{{ component.unit}}
-                                    {% endif %}
-                                </span>    
-                            </div>
-                        </div> 
-                    {% endfor %}
-                </form>                
+        <div class="inventory_page-form">
+            <div class="svg-container">
+                <img src="{% static 'clip_vector.svg' %}" alt="" class="clip_vector">
             </div>
-        {% endif %}
+            <div class="inv-btn-container">
+                <a href="{% url 'inventory:add_component' %}" class="btn">Add Material</a>
+                <button id="delete_button" type="button" class = 'btn'>Delete Selected</button>  
+                <button id="createRecipeBtn" class="btn">Create Recipe</button>                     
+            </div> 
+            <form id="delete_form" method="post" action="{% url 'inventory:components' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 3%;"></th>
+                            <th style="width: 7%;"></th>
+                            <th style="width: 50%;">Name</th>
+                            <th style="width: 16%;">Quantity</th>
+                            <th style="width: 12%;">Price Per Unit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for component in components %}
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="form-check-input-select" name="selected_components" value="{{ component.id }}">
+                                </td>
+                                <td>
+                                    <a class="no_underline" href="{% url 'inventory:component_page' id=component.id name=component.name %}">
+                                        <img src="{{ component.component_image.url }}" alt="📦" class="default_product_icon">
+                                    </a>
+                                </td>    
+                                <td>
+                                    <a class="no_underline" href="{% url 'inventory:component_page' id=component.id name=component.name %}">
+                                        {{ component.name }}
+                                    </a>
+                                </td>
+                                <td>{% if component.unit == 'Ct' %} 
+                                        {{ component.quantity }}
+                                    {% else %}
+                                        {{ component.quantity }}{{ component.unit}}
+                                    {% endif %}
+                                </td>
+                                <td>${{ component.price }}</td>  
+                            </tr>    
+                        {% endfor %}
+                    </tbody>
+                </table>  
+            </form>
+            
+        </div>
+
+        {% comment %} Mobile Layout {% endcomment %}
+        <div class="inventory_page-form-optons">
+            {% comment %} <h2 style="text-align:left;">Components</h2> {% endcomment %}
+            <div class="inv-btn-container">
+                <a href="{% url 'inventory:add_component' %}" class="btn">Add Material</a>
+                <button id="delete_button-mobile" type="button" class = 'btn'>Delete Selected</button> 
+                <button id="createRecipeBtnMobile" class="btn">Create Recipe</button>  
+            </div>
+        </div>
+        
+        <div class="inventory_page-form-mobile">               
+            <form id="delete_form-mobile" method="post" action="{% url 'inventory:components' %}" enctype="multipart/form-data">
+                {% csrf_token %}    
+                {% for component in components %}
+                    <div class="inventory-product-card"> 
+                        <div class="inventory-product-card-left-group">        
+                            <input type="checkbox" class="form-check-input-select" name="selected_components" value="{{ component.id }}">
+                            <a class="no_underline" href="{% url 'inventory:component_page' id=component.id name=component.name %}">
+                                <img src="{{ component.component_image.url }}" alt="📦" class="default_product_icon">
+                            </a>
+                        </div>    
+                        <div class="inventory-product-card-info">
+                            <a class="no_underline" href="{% url 'inventory:component_page' id=component.id name=component.name %}">
+                                {{ component.name }}
+                            </a>
+                            <span>Price: ${{ component.price }}</span>
+                            <span>
+                                {% if component.unit == 'Ct' %} 
+                                    Quantity: {{ component.quantity }}
+                                {% else %}
+                                    Quantity: {{ component.quantity }}{{ component.unit}}
+                                {% endif %}
+                            </span>    
+                        </div>
+                    </div> 
+                {% endfor %}
+            </form>                
+        </div>
+    {% endif %}
+    <div id="successPopup" class="success-popup">
+        <h2>Recipe Created</h2> 
+        <img src="{% static "check.svg" %}" style="width:20px; height:auto;">
+    </div>  
+</div>
+
+    
+<div id="createRecipeModal" class="modal" style="display:none;">
+    <div class="modal-container" id="modalContainer">
+        <div class="modal-header">
+            <h2 style="color:white;">Create a Recipe</h2>
+            <span tabindex="0" class="close">&times;</span>
+        </div>  
+        <div class="modal-content">
+            <form id="recipeForm" method="POST">
+                {% csrf_token %}
+                {{ recipe_form.as_p }}
+                <div class="formset-container" id="formset-container">
+                {{ formset.management_form }}
+                    {% for form in formset %}
+                        <div class="material-form">
+                            <div style="width:70%;">
+                                <label>Material<br></label>
+                                {{ form.material }}
+                            </div>
+                            <div style="width:30%;">
+                                <label>Quantity<br></label>
+                                {{ form.quantity }}
+                            </div>  
+                        </div>
+                    {% endfor %}
+                </div>
+                <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; width:100%; gap:10px;">
+                    <button type="button" id="add-material" class="add-material-btn"><img src="{% static 'dashboard+2.svg' %}" alt="Add more materials" class="add-material-btn img"></button>
+                    <label>Add Material</label>
+                </div>
+        </div>    
+        <div class="modal-footer">
+            <button type="button" id="closeBtn" class="modal-btn closebtn">Close</button>
+            <button type="submit" class="modal-btn">Save</button>
+        </div>  
+            </form>   
     </div>
+</div>
+      
+      
+<script>
+    const modal = document.getElementById('createRecipeModal');
+    const modalContainer = document.getElementById('modalContainer');
+    const btn = document.getElementById('createRecipeBtn');
+    const btnMobile = document.getElementById('createRecipeBtnMobile');
+    const closeBtn = document.getElementById('closeBtn');
+    const span = document.getElementsByClassName('close')[0];
+    let formsetContainer = document.getElementById('formset-container');
+    let totalForms = document.querySelector('#id_recipematerials_set-TOTAL_FORMS');
+    let initialFormHtml = formsetContainer.innerHTML;
+    let initialFormCount = parseInt(totalForms.value);
+    const success = document.getElementById('successPopup');
+    const firstElement = document.getElementById('id_name');
+    //Open modal  
+    btn.onclick = function() {
+        modal.style.display = 'block';
+        firstElement.focus();
+        modalContainer.classList.add('show');
+        console.log("Modal open, Total forms: ",totalForms.value)
+    }
+    btnMobile.onclick = function() {
+        modal.style.display = 'block';
+        modalContainer.classList.add('show'); 
+        firstElement.focus();
+    }
+    
 
+    /*
+    //Handle dynamic field creation
+    document.addEventListener('DOMContentLoaded', function () {    
+        let initialForm = document.querySelectorAll('.material-form')[0];  // First form
 
+        // Attach an event listener to the Add Materials button
+        document.getElementById('add-material').addEventListener('click', function () {
+            let formCount = parseInt(totalForms.value);  // Get the current form count
+            
+            // Clone the first form in the formset
+            let newForm = initialForm.cloneNode(true);
+            // Replace the form index in the new form's HTML with the correct form number
+            let newFormHtml = newForm.innerHTML.replace(/recipematerials_set-\d+/g, `recipematerials_set-${formCount}`);
+            newForm.innerHTML = newFormHtml;
+    
+            // Clear out any data in the new form fields (so previous form's data isn't copied)
+            newForm.querySelectorAll('input, select').forEach(function(input) {
+                input.value = '';  // Clear the input field value
+            });
+    
+            // Append the new form to the formset container
+            formsetContainer.appendChild(newForm);
+    
+            // Increment the TOTAL_FORMS value to account for the new form
+            totalForms.value = formCount + 1;
+            console.log(totalForms.value)
+        });
+    });
+     */ 
+     
+     function addDynamicFields() {
+        let formCount = parseInt(totalForms.value);
 
-    <script>
-        document.getElementById('delete_button').addEventListener('click', function() {
-            document.getElementById('delete_form').submit();
+        let newForm = document.querySelectorAll('.material-form')[0].cloneNode(true);
+
+        let newFormHtml = newForm.innerHTML.replace(/recipematerials_set-\d+/g, `recipematerials_set-${formCount}`);
+        newForm.innerHTML = newFormHtml;
+
+        newForm.querySelectorAll('input, select').forEach(function(input) {
+            input.value = ''; 
         });
 
-        document.getElementById('delete_button-mobile').addEventListener('click', function() {
-            document.getElementById('delete_form-mobile').submit();
+        formsetContainer.appendChild(newForm);
+        totalForms.value = formCount + 1;
+        console.log("Added new material form, Total forms: ",totalForms.value);
+     }
+
+    document.getElementById('add-material').addEventListener('click', addDynamicFields);
+
+    function resetModal(){
+        modal.style.display = 'none';
+        document.getElementById('recipeForm').reset();
+        console.log("Modal reset. TOTAL_FORMS:", totalForms.value);
+        while(totalForms.value > 1){
+            formsetContainer.lastChild.remove();
+            totalForms.value--;
+        }
+        
+    }
+
+    //Close modal on x or close button
+    span.onclick = resetModal;
+    closeBtn.onclick = resetModal;
+    modal.addEventListener('click', (event) => {
+        event.stopPropagation();
+        if (event.target == modal){
+            resetModal();  
+        } 
+        else if (event.key === 'Escape'){
+            resetModal();
+        };     
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if(modal.style.display === 'block'){
+            if(event.key === 'Escape' || event.key === 'esc'){
+                resetModal();
+            }
+        };
+    });
+
+    //Handle form submission
+    document.getElementById('recipeForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        
+        //totalForms.value = document.querySelectorAll('.material-form').length;
+        const formData = new FormData(this);
+        //for (const [key, value] of formData.entries()) {
+        //    console.log(`${key}: ${value}`);
+        //}
+
+        fetch('{% url "inventory:create_recipe" %}', {
+        method: 'POST',
+        body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        if (data.success) {
+            modal.style.display = 'none';
+            success.style.display = 'flex';
+            success.classList.add('activate');
+            setTimeout(() => {success.style.display = 'none';},2000);
+            setTimeout(() => {resetModal();},1000);
+        } else {
+            alert('Failed to create recipe');
+        }
         });
-    </script>
+    });
+</script>
+      
+
+<script>
+    document.getElementById('delete_button').addEventListener('click', function() {
+        document.getElementById('delete_form').submit();
+    });
+
+    document.getElementById('delete_button-mobile').addEventListener('click', function() {
+        document.getElementById('delete_form-mobile').submit();
+    });
+</script>
+
+
+
 {% endblock %}

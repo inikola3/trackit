@@ -2,10 +2,10 @@
 {% load static %}
 
 {% block title %}
-    Add Component
+    Add Material
 {% endblock %}
 {% block header %} 
-    Add Component
+    Add Material
 {% endblock %}
 
 {% block content %}
@@ -13,7 +13,7 @@
         <form method="post" enctype="multipart/form-data" novalidate id="product-form">
             {% csrf_token %}
             <div class="inventory_page_mid">
-                <div style="float:left; font-weight:700">Component Image</div>
+                <div style="float:left; font-weight:700">Material Image</div>
             </div>
             <div class="add-page-banner"> 
                 <div class="banner_add_image_field">
@@ -21,11 +21,11 @@
                      <input type="file" id="id_product_image" name="product_image" style="display:none;">
                 </div>  
                 <div class="banner_name_field">
-                     Add Component Image
+                     Add Material Image
                 </div>
             </div>
             <div class="inventory_page_mid">
-                <div style="float:left; font-weight:700">Component Info</div>
+                <div style="float:left; font-weight:700">Material Info</div>
             </div>
             <div class="inventory_add-page-form"> 
                 <div class="input-group-inv">
@@ -48,7 +48,7 @@
                             {{ form.price }}
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-form">Submit</button>
                 </div>
             </div>        
         </form>     

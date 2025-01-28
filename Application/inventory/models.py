@@ -2,6 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 
+
+class Recipe(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name
+    
 class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
@@ -15,6 +23,8 @@ class Product(models.Model):
     in_stock = models.BooleanField()
     date = models.DateTimeField(auto_now_add=True)
     product_image = models.ImageField(upload_to='product_images/', default='product_images/product_default4.svg', blank=True)
+    recipe = models.ForeignKey(Recipe, on_delete=models.SET_NULL, null=True, blank=True, related_name='products')
+
 
     def __str__(self):
         return self.name
@@ -40,3 +50,12 @@ class Component(models.Model):
         return self.name
 
 
+
+    
+class RecipeMaterials(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    material = models.ForeignKey(Component, on_delete=models.CASCADE)
+    quantity = models.FloatField()
+
+    def __str__(self):
+        return f"{self.material.name} in {self.recipe.name}"

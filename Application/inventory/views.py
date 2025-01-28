@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Product, Component
 from django.contrib.auth.decorators import login_required
 from . import forms
+from django.http import JsonResponse
+from .forms import RecipeForm, RecipeMaterialForm, RecipeMaterialFormSet
 # Create your views here.
 
 @login_required(login_url="/users/login/")
@@ -63,20 +65,50 @@ def product_page(request, name, id):
 login_required(login_url="/users/login/")
 def components(request):
     component = Component.objects.filter(user=request.user)
-    if request.method == 'POST':
-        selected_components = request.POST.getlist('selected_components')
-        for component_id in selected_components:
-            component = get_object_or_404(Component, id=component_id, user=request.user)
-            component.delete()
-        return redirect('inventory:components')
-    
     component_count = component.count()
     out_of_stock = Component.objects.filter(quantity = 0, user=request.user).count()
+
+    recipe_form = RecipeForm()
+    formset = RecipeMaterialFormSet()
     
+
+    # Components view
+    if request.method == "POST":
+        if 'selected_components' in request.POST:
+            #component = Component.objects.filter(user=request.user)
+            selected_components = request.POST.getlist('selected_components')
+            for component_id in selected_components:
+                component = get_object_or_404(Component, id=component_id, user=request.user)
+                component.delete()
+            return redirect('inventory:components')
+            
+        # component_count = component.count()
+        # out_of_stock = Component.objects.filter(quantity = 0, user=request.user).count()
+        
+    #Recipe modal View
+        if 'material' in request.POST:
+            
+            recipe_form = RecipeForm(request.POST)
+            formset = RecipeMaterialFormSet(request.POST)
+            
+            if recipe_form.is_valid() and formset.is_valid():
+                recipe = recipe_form.save()
+                formset.instance = recipe
+                formset.save()
+                return JsonResponse({'success':True})
+            else:
+                return JsonResponse({'success':False, 'errors':recipe_form.errors})
+    print(request.POST)        
+        # recipe_form = RecipeForm()
+        # formset = RecipeMaterialFormSet()
+
+
     return render(request, "inventory/components.html", 
                   { 'components' : component,
                     'component_count' : component_count,
                     'out_of_stock' : out_of_stock,
+                    'recipe_form':recipe_form,
+                    'formset':formset,
                    })
 
 
@@ -105,3 +137,21 @@ def component_page(request, name, id):
     else:
         form = forms.Component(instance=component)
     return render(request, 'inventory/component_page.html', {'form': form, 'component': component})
+
+
+@login_required(login_url="/users/login/")
+def create_recipe(request):
+    if request.method == "POST":
+        recipe_form = RecipeForm(request.POST)
+        formset = RecipeMaterialFormSet(request.POST)
+        if recipe_form.is_valid() and formset.is_valid():
+            recipe = recipe_form.save()
+            formset.instance = recipe
+            formset.save()
+            return JsonResponse({'success':True})
+        else:
+            return JsonResponse({'success':False, 'errors':recipe_form.errors})
+        
+    recipe_form = RecipeForm()
+    formset = RecipeMaterialFormSet()
+    return render(request, 'inventory/components.html', {'recipe_form':recipe_form, 'formset':formset})

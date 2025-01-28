@@ -17,130 +17,28 @@
 
     <div class="dashboard-first-row-container">
         
-{% comment %} Card 1 Stock alerts {% endcomment %} 
-
-        <div class="card1">
-            <div class="card_top">
-                <div class="card-content">
-                    <div style="color:#272730; font-weight:700">Products out of stock</div>
-                    <div style="margin-bottom: 10px; color:#272730; font-weight:700">{{ out_of_stock_products }}</div>
-                </div>    
-                <div class="card-content">
-                    <div style="color:#272730; font-weight:700">Components out of stock</div>
-                    <div style="margin-bottom: 10px; color:#272730; font-weight:700">{{ out_of_stock_components }}</div>
-                </div> 
-                <div class="card-content">
-                    {% if near_out_of_stock_products == 0 %}
-                        <div style="color:#272730; font-weight:700">Products almost out of stock</div>
-                    {% else %}
-                        {% comment %} <div><img src="{% static 'warning.svg' %}" alt="Logo" class="warning-icon"></div> {% endcomment %}
-                        <div style="color:#272730; font-weight:700"> Products almost out of stock <img src="{% static 'warning.svg' %}" alt="Logo" class="warning-icon"></div>
-                    {% endif %}
-                        <div style="margin-bottom: 10px; color:#272730; font-weight:700">{{ near_out_of_stock_products }}</div>
-                </div> 
-                <div class="card-content">
-                    {% if near_out_of_stock_components == 0 %}
-                        <div style="color:#272730; font-weight:700">Components almost out of stock</div>
-                    {% else %}   
-                        {% comment %} <div><img src="{% static 'warning.svg' %}" alt="Logo" class="warning-icon"></div> {% endcomment %}
-                        <div style="color:#272730; font-weight:700">Components almost out of stock<img src="{% static 'warning.svg' %}" alt="Logo" class="warning-icon"></div> 
-                    {% endif %}
-                        <div style="margin-bottom: 10px; color:#272730; font-weight:700">{{ near_out_of_stock_components }}</div>
-                </div> 
-            </div>       
-            <div class="card_bottom">
-                <div class="bottom-card-content">
-                    {% if out_of_stock_products == 0 and out_of_stock_components == 0 %}
-                         <div><img src="{% static 'in_stock.svg' %}" alt="Logo" class="in_stock-icon"></div>
-                    {% else %}
-                        <div><img src="{% static 'out_of_stock.svg' %}" alt="Logo" class="in_stock-icon"></div>
-                    {% endif %}
-                    <div style="margin-left:20px;margin-right:20px; margin-top:10px; font-weight:900">Inventory Stock Alerts</div>
-                    {% if out_of_stock_products == 0 and out_of_stock_components == 0 %}
-                        <div><img src="{% static 'in_stock.svg' %}" alt="Logo" class="in_stock-icon"></div>
-                    {% else %}
-                        <div><img src="{% static 'out_of_stock.svg' %}" alt="Logo" class="in_stock-icon"></div>
-                    {% endif %}
-                </div>                
-            </div>
-        </div>
-
-{% comment %} Card 2 Cost of goods {% endcomment %}
-
+{% comment %} Card 2 Sales Today {% endcomment %}
         <div class="card2">
             <div class="card_top">
-                <div class="card2-content">
-                    <canvas id="myDonutChart" width="300" height="160"></canvas>
-                    <div id="debug-data" style="display:none;">
-                        {{ data|json_script:"chart-data" }}
-                    </div>
-                        <script>
-                            document.addEventListener("DOMContentLoaded", function() {
-                                const data = JSON.parse(document.getElementById('chart-data').textContent);
-                    
-                                console.log('Parsed Data:', data);  // Debug line to check the parsed data
-                    
-                                const ctx = document.getElementById('myDonutChart').getContext('2d');
-                    
-                                const myDonutChart = new Chart(ctx, {
-                                    type: 'doughnut',
-                                    data: {
-                                        labels: data.labels,
-                                        datasets: [{
-                                            data: data.prices,
-                                            spacing: 10, hoverOffset: 20,
-                                            backgroundColor: [
-                                                'rgba(54, 162, 235, 0.9)',
-                                                'rgba(255, 99, 132, 0.9)',
-                                                'rgba(255, 206, 86, 0.9)',
-                                                'rgba(75, 192, 192, 0.9)',
-                                                'rgba(153, 102, 255, 0.9)',
-                                                'rgba(255, 159, 64, 0.9)'
-                                            ],
-                                            borderColor: [
-                                                'rgba(54, 162, 235, 1)',
-                                                'rgba(255, 99, 132, 1)',
-                                                'rgba(255, 206, 86, 1)',
-                                                'rgba(75, 192, 192, 1)',
-                                                'rgba(153, 102, 255, 1)',
-                                                'rgba(255, 159, 64, 1)'
-                                            ],
-                                            borderWidth: 1
-                                        }]
-                                    },
-                                    options: {
-                                        borderRadius: 5,
-                                        responsive: false,
-                                        maintainAspectRatio: true,
-                                        plugins: {legend: {display:true, position:'right'},
-                                                    tooltip: {enabled: true}
-                                        }
-
-                                    }
-                                });
-                            });
-                        </script>
-                        
-                        {% if cog_total != 0 %}
-                            <div class="donut-center">${{ cog_total }}</div>
-                        {% endif%}
+                <div class="card-left">
+                    <div style="padding-top:10px;display:flex; justify-content:left; font-size:20px; font-weight:900">Sales Today</div>
+                    <div><img src="{% static 'register.svg' %}" alt="Logo" class="transaction-icon"></div>
+                </div>
+                <div class="card-right">
+                    <div style="position:relative; left:-35px; display:flex; justify-content:center; align-items:center;font-size:50px;margin-left:15px; font-weight:900; width:200px;"> ${{ sales_today_total }}</div>
                 </div>
             </div>
-            <div class="card_bottom">
-                <div class="bottom-card-content">
-                    <div><img src="{% static 'cost_of_goods.svg' %}" alt="Logo" class="in_stock-icon"></div>
-                    <div style="margin-left:20px;margin-right:20px; margin-top:10px; font-weight:900">Cost of Goods</div> 
-                    <div><img src="{% static 'cost_of_goods.svg' %}" alt="Logo" class="in_stock-icon"></div>
-                </div>   
-            </div>
         </div>
-        
         
 {% comment %} Card 3 Daily Sales{% endcomment %}
         <div class="card3">
             <div class="card_top">
-                <div class="card2-content">
-                    <canvas id="totalSales" width="300" height="160"></canvas>
+                <div class="card-left">
+                    <div style="padding-top:10px;display:flex; justify-content:left; font-size:20px; font-weight:900">Orders Today</div>
+                    <div><img src="{% static 'transaction_approved2.svg' %}" alt="Logo" class="transaction-icon"></div>
+                </div>
+                <div class="card-right">
+                    <canvas id="totalSales" width="200" height="170"></canvas>
                         <script>
                             document.addEventListener("DOMContentLoaded", function() {
                                 
@@ -163,11 +61,11 @@
                                             data: data.sales,
                                             hoverOffset: 0,
                                             backgroundColor: [
-                                                'rgba(99, 193, 138, 1)',
+                                                'rgba(88, 249, 134, 1)',
                                                 'rgba(200, 204, 208, 1)',
                                             ],
                                             borderColor: [
-                                                'rgba(99, 193, 138, 1)',
+                                                'rgba(88, 249, 134, 1)',
                                                 'rgba(246, 246, 246, 1)',
                                             ],
                                             borderWidth: 1,
@@ -197,21 +95,108 @@
                         <div class="total_sales-center">{{ sales_count }}/{{ daily_goal }}</div>
                 </div>        
             </div>
-            <div class="card_bottom">
-                <div class="bottom-card-content">
-                    <div><img src="{% static 'transaction_approved2.svg' %}" alt="Logo" class="register-icon"></div>
-                    <div style="margin-left:30px;margin-right:30px; margin-top:10px; font-weight:900">Sales Today</div> 
-                    <div><img src="{% static 'transaction_approved2.svg' %}" alt="Logo" class="register-icon"></div>
-                </div>
-            </div>
         </div>
 
 
-        {% comment %} Card 4 All-time sales {% endcomment %}
+{% comment %} Card Total Sales Value {% endcomment %}
         <div class="card4">
             <div class="card_top">
-                <div class="card2-content">
-                    <canvas id="allSales" width="300" height="160"></canvas>
+                <div class="card-left" >
+                    <div style="padding-top:10px;display:flex; justify-content:left; font-size:20px; font-weight:900">Total Sales</div>
+                    <div style="position:relative; display:flex; justify-content:center;top:15px;left:-30px;font-size:40px; font-weight:900;"> ${{ all_time_sales_value }}</div>
+                </div>
+                <div class="card-right">
+                    <canvas id="allSalesValue" width="200" height="170"></canvas>
+                    <div id="debug-data" style="display:none;">
+                        {{ all_sales_value|json_script:"sales-value-data" }}
+                    </div>
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function() {
+                                const data = JSON.parse(document.getElementById('sales-value-data').textContent);
+                    
+                                //console.log('Parsed Data:', data); 
+                    
+                                const ctx = document.getElementById('allSalesValue').getContext('2d');
+                    
+                                const allSalesValue = new Chart(ctx, {
+                                    type: 'line',
+                                    data: {
+                                        labels: data.dates,
+                                        datasets: [{
+                                            label: 'Sales',
+                                            data: data.sales,
+                                            spacing: 10, hoverOffset: 20,
+                                            tension: 0.3,
+                                            
+                                            backgroundColor: [
+                                                'rgba(88, 249, 134, 1)',                                             
+                                            ],
+                                            borderColor: [
+                                                'rgba(88, 249, 134, 1)',
+                                            ],
+                                            borderWidth: 3
+                                        }]
+                                    },
+                                    options: {
+                                        borderRadius: 5,
+                                        responsive: false,
+                                        maintainAspectRatio: true,
+                                        plugins: {legend: {display:false},
+                                            tooltip: {
+                                                callbacks: {
+                                                    title: function(context) {
+                                                        let date = context[0].label; // Get the date string
+                                                        let formattedDate = new Date(date).toLocaleDateString('en-US', {
+                                                            year: 'numeric',
+                                                            month: 'long',
+                                                            day: 'numeric'
+                                                        });
+                                                        return formattedDate;
+                                                    },
+                                                    label: function(context) {
+                                                        let value = context.raw || 0;
+                                                        return `$${value} in sales`;
+                                                    }
+                                                },
+                                                displayColors: false
+                                            } 
+                                        },
+                                        scales: {
+                                            x: {
+                                              display: false,
+                                              title: {
+                                                display: true
+                                              }
+                                            },
+                                            y: {
+                                              display: false,
+                                              title: {
+                                                display: true,
+                                                text: 'Value'
+                                              },
+                                              suggestedMin: 0,
+                                              suggestedMax: 10
+                                            }
+                                          }
+                                    },
+                                    
+
+                                });
+                            });
+                        </script>
+                </div>    
+            </div>
+        </div>
+
+{% comment %} Card 4 All-time sales {% endcomment %}
+        <div class="card4">
+            <div class="card_top">
+                <div class="card-left" >
+                    <div style="padding-top:10px;display:flex; justify-content:left; font-size:20px; font-weight:900">Total Orders</div>
+                    <div style="position:relative;top:15px;left:13px;font-size:40px;margin-left:15px; font-weight:900"> {{ all_time_sales_count }}</div>
+                </div>
+                <div class="card-right">
+                    <canvas id="allSales" width="200" height="170"></canvas>
                     <div id="debug-data" style="display:none;">
                         {{ all_sales_data|json_script:"sales-data" }}
                     </div>
@@ -219,7 +204,7 @@
                             document.addEventListener("DOMContentLoaded", function() {
                                 const data = JSON.parse(document.getElementById('sales-data').textContent);
                     
-                                console.log('Parsed Data:', data); 
+                               // console.log('Parsed Data:', data); 
                     
                                 const ctx = document.getElementById('allSales').getContext('2d');
                     
@@ -228,87 +213,266 @@
                                     data: {
                                         labels: data.dates,
                                         datasets: [{
+                                            label: 'Orders',
                                             data: data.sales,
                                             spacing: 10, hoverOffset: 20,
+                                            tension: 0.3,
+                                            
                                             backgroundColor: [
-                                                'rgba(255, 99, 132, 0.9)',
-                                                'rgba(54, 162, 235, 0.9)',
-                                                'rgba(255, 206, 86, 0.9)',
-                                                'rgba(75, 192, 192, 0.9)',
-                                                'rgba(153, 102, 255, 0.9)',
-                                                'rgba(255, 159, 64, 0.9)'
+                                                'rgba(88, 249, 134, 1)',                                             
                                             ],
                                             borderColor: [
-                                                'rgba(255, 99, 132, 1)',
-                                                'rgba(54, 162, 235, 1)',
-                                                'rgba(255, 206, 86, 1)',
-                                                'rgba(75, 192, 192, 1)',
-                                                'rgba(153, 102, 255, 1)',
-                                                'rgba(255, 159, 64, 1)'
+                                                'rgba(88, 249, 134, 1)',
                                             ],
-                                            borderWidth: 1
+                                            borderWidth: 3
                                         }]
                                     },
                                     options: {
                                         borderRadius: 5,
-                                        responsive: true,
+                                        responsive: false,
                                         maintainAspectRatio: true,
-                                        plugins: {legend: {display:false}
-                                        
-                                        }
+                                        plugins: {legend: {display:false},
+                                            tooltip: {
+                                                callbacks: {
+                                                    title: function(context) {
+                                                        let date = context[0].label; // Get the date string
+                                                        let formattedDate = new Date(date).toLocaleDateString('en-US', {
+                                                            year: 'numeric',
+                                                            month: 'long',
+                                                            day: 'numeric'
+                                                        });
+                                                        return formattedDate;
+                                                    },
+                                                    label: function(context) {
+                                                        let value = context.raw || 0;
+                                                        return `${value} orders`;
+                                                    }
+                                                },
+                                                displayColors: false
+                                            }
+                                        },
+                                        scales: {
+                                            x: {
+                                              display: false,
+                                              title: {
+                                                display: true
+                                              }
+                                            },
+                                            y: {
+                                              display: false,
+                                              title: {
+                                                display: true,
+                                                text: 'Value'
+                                              },
+                                              suggestedMin: 0,
+                                              suggestedMax: 10
+                                            }
+                                          }
+                                    },
+                                    
 
-                                    }
                                 });
                             });
                         </script>
-                        <div class="total_sales-pos">Total Sales: {{ all_time_sales_count }}</div>
                 </div>    
-            </div>
-            <div class="card_bottom">
-                <div class="bottom-card-content">
-                    <div><img src="{% static 'number_of_sales.svg' %}" alt="Logo" class="in_stock-icon"></div>
-                    <div style="margin-left:30px;margin-right:30px; margin-top:10px; font-weight:900">Total Sales</div> 
-                    <div><img src="{% static 'number_of_sales.svg' %}" alt="Logo" class="in_stock-icon"></div>
-                </div>
             </div>
         </div>
     </div>        
 
     <div class="dashboard-first-row-container" style="margin-top:20px;">
-           {% comment %} Total revenue/avg order value {% endcomment %}
+
+{% comment %} Total revenue/avg order value {% endcomment %}
             <div class="card5">
-                <div class="card_top">
+                <div class="card_top-column">
                     <div class="card2-content">
-                        <div class="total_sales-center">${{ average_order_value }}</div>
+                        <div class="total_sales-center" style="top:-25%;font-size:50px;font-weight:900">${{ average_order_value }}</div>
                     </div>    
                 </div>
             
                 <div class="card_bottom">
                     <div class="bottom-card-content">
-                        
-                        <div style="margin-left:20px;margin-right:20px; margin-top:10px; font-weight:900">Average Order Value</div> 
+                        <div><img src="{% static 'number_of_sales.svg' %}" alt="Logo" class="in_stock-icon"></div>
+                        <div style="margin-left:20px;margin-right:20px; margin-top:10px;font-weight:900">Average Order Value</div> 
                         
                     </div>
                 </div>
             </div>
 
-        {% comment %} Net profit {% endcomment %}
-        <div class="card6">
-                <div class="card_top">
-                    <div class="card2-content">
-                        <div class="total_sales-center">$</div>
+{% comment %} Inventory Stock Alerts {% endcomment %}
+            <div class="card1">
+                <div class="card_top-column">
+                    <div class="card-content">
+                        <div style="color:#272730; font-weight:700">Products out of stock</div>
+                        <div style="margin-bottom: 10px; color:#272730; font-weight:700">{{ out_of_stock_products }}</div>
                     </div>    
-                </div>
-            
+                    <div class="card-content">
+                        <div style="color:#272730; font-weight:700">Components out of stock</div>
+                        <div style="margin-bottom: 10px; color:#272730; font-weight:700">{{ out_of_stock_components }}</div>
+                    </div> 
+                    <div class="card-content">
+                        {% if near_out_of_stock_products == 0 %}
+                            <div style="color:#272730; font-weight:700">Products almost out of stock</div>
+                        {% else %}
+                            <div style="color:#272730; font-weight:700"> Products almost out of stock <img src="{% static 'warning.svg' %}" alt="Logo" class="warning-icon"></div>
+                        {% endif %}
+                            <div style="margin-bottom: 10px; color:#272730; font-weight:700">{{ near_out_of_stock_products }}</div>
+                    </div> 
+                    <div class="card-content">
+                        {% if near_out_of_stock_components == 0 %}
+                            <div style="color:#272730; font-weight:700">Components almost out of stock</div>
+                        {% else %}   
+                            <div style="font-weight:700">Components almost out of stock<img src="{% static 'warning.svg' %}" alt="Logo" class="warning-icon"></div> 
+                        {% endif %}
+                            <div style="margin-bottom: 10px; color:#272730; font-weight:700">{{ near_out_of_stock_components }}</div>
+                    </div> 
+                </div>       
                 <div class="card_bottom">
                     <div class="bottom-card-content">
-                        
-                        <div style="margin-left:20px;margin-right:20px; margin-top:10px; font-weight:900">Total Revenue</div> 
-                        
+                        {% if out_of_stock_products == 0 and out_of_stock_components == 0 %}
+                             <div><img src="{% static 'in_stock.svg' %}" alt="Logo" class="in_stock-icon"></div>
+                        {% else %}
+                            <div><img src="{% static 'out_of_stock.svg' %}" alt="Logo" class="in_stock-icon"></div>
+                        {% endif %}
+                        <div style="margin-left:20px;margin-right:20px; margin-top:10px; font-weight:900">Inventory Stock Alerts</div>
+                    </div>                
+                </div>
+            </div>
+
+{% comment %} Card 2 Cost of goods {% endcomment %}
+            <div class="card2">
+                <div class="card_top-column">
+                    <div class="card2-content" style="justify-content:flex-start; width: 270px;">
+                        <div class="chart-container">
+                            <canvas id="myDonutChart" width="160" height="160"></canvas>
+                                <div class="donut-center" id="totalCost"></div>
+                                <div class="arrow" id="arrow"><img src="{% static 'arrow_point2.svg' %}" alt="Logo" class="arrow"></div>
+                        </div>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    const arrow = document.getElementById('arrow');
+                                    const selection = document.getElementById('productSelection');
+                                    const priceDisplay = document.getElementById('totalCost');
+                                    if(selection.selectedOptions[0].textContent === 'None'){
+                                        priceDisplay.textContent = 'Select a product';
+                                    
+                                    }
+                                    let myDonutChart;
+                                    selection.addEventListener('change', (event) =>{
+                                        arrow.style.display = 'none';
+                                        const productId = event.target.selectedOptions[0].value;
+
+                                        fetch(`/dashboard/get-cog/${productId}/`)
+                                            .then(response => response.json())
+                                            .then(data =>{
+                                                
+                                            const labels = data.labels;
+                                            const prices = data.prices;
+                                            let totalPrice = 0;
+
+                                            for(let i=0; i<prices.length; i++){
+                                                totalPrice += prices[i]
+                                            }
+                                            //console.log(labels);
+
+                                            if(labels[0] === 'Missing Data'){
+                                                priceDisplay.textContent = '$---';
+                                            }
+                                            else{
+                                                priceDisplay.textContent = `$${totalPrice.toFixed(2)}`;
+                                            }
+
+                                            if(myDonutChart){
+                                                myDonutChart.destroy();
+                                            }
+
+                                            const ctx = document.getElementById('myDonutChart').getContext('2d');
+                                            myDonutChart = new Chart(ctx, {
+                                                type: 'doughnut',
+                                                data: {
+                                                    labels: [], 
+                                                    datasets: [{
+                                                        label: '$',
+                                                        data: [],
+                                                        spacing: 5, hoverOffset: 3,
+                                                        backgroundColor: [
+                                                            'rgba(54, 162, 235, 0.9)',
+                                                            'rgba(255, 99, 132, 0.9)',
+                                                            'rgba(255, 206, 86, 0.9)',
+                                                            'rgba(75, 192, 192, 0.9)',
+                                                            'rgba(153, 102, 255, 0.9)',
+                                                            'rgba(255, 159, 64, 0.9)'
+                                                        ],
+                                                        borderColor: [
+                                                            'rgba(54, 162, 235, 1)',
+                                                            'rgba(255, 99, 132, 1)',
+                                                            'rgba(255, 206, 86, 1)',
+                                                            'rgba(75, 192, 192, 1)',
+                                                            'rgba(153, 102, 255, 1)',
+                                                            'rgba(255, 159, 64, 1)'
+                                                        ],
+                                                        borderWidth: 1
+                                                    }]
+                                                },
+                                                options: {
+                                                    borderRadius: 5,
+                                                    responsive: false,
+                                                    maintainAspectRatio: false,
+                                                    /*layout: {
+                                                        padding: {
+                                                            left: 0,
+                                                            right: 150,
+                                                            top: 0,
+                                                            bottom: 0
+                                                        }
+                                                    },*/
+                                                    plugins: {legend: {display:false, position:'right'},
+                                                                tooltip: {
+                                                                    enabled: true,
+                                                                    callbacks: {
+                                                                        label: function(context) {
+                                                                        let label = 'Cost' || '';
+                                                                        let value = context.raw || 0;
+                                                                        //console.log('context:',context.raw);
+                                                                        if(context.label === 'Missing Data'){
+                                                                            return `---`;
+                                                                        }else{
+                                                                            return `${label}: $${value.toFixed(2)}`;
+                                                                        }
+                                                                        }
+                                                                    },
+                                                                    displayColors: false
+                                                                }
+                                                    }
+                                                }
+                                            });
+                                            myDonutChart.data.labels = labels;
+                                            myDonutChart.data.datasets[0].data = prices;
+                                            myDonutChart.update();
+                                            //console.log('Fetched data:', data);
+                                        })
+                                        .catch(error => console.error('Error Test: ',error));
+                                    });
+                                });
+                            </script>
+                            
+                    
+                        <div class="cog-dropdown">
+                            <select class="select" name="products" id="productSelection">
+                                    <option value="" selected disabled hidden >None</option>
+                                {% for product in products %}
+                                    <option id="option" value="{{ product.id }}"> {{product.name}} </option>
+                                {% endfor %}    
+                            </select>
+                        </div>
                     </div>
                 </div>
-        </div>
-
+                <div class="card_bottom">
+                    <div class="bottom-card-content">
+                        <div style="transform:translateX(-30px);"><img src="{% static 'cost_of_goods.svg' %}" alt="Logo" class="in_stock-icon"></div>
+                        <div style="margin-right:20px; margin-top:10px; font-weight:900;transform:translateX(-35px);">Cost of Goods</div> 
+                    </div>   
+                </div>
+            </div>
 
     </div>
         {% endblock %}

@@ -76,13 +76,15 @@
                         {{ form.quantity }}
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="{{ form.in_stock.id_for_label }}">In-Use:</label>
-                        {{ form.in_stock }}
+                        <label for="{{ form.recipe.id_for_label }}">Recipe</label>
+                        {{ form.recipe }}
                     </div>
                     <div class="form-group col-md-6">
+                        <label for="{{ form.in_stock.id_for_label }}">In-Use</label>
+                        {{ form.in_stock }}
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Update</button>
+                <button type="submit" class="btn btn-form" style="margin-top: 20px;">Update</button>
             </div>
         </div>
     </form>       

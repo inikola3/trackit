@@ -5,7 +5,7 @@
     {{ component.name }} 
 {% endblock %}
 {% block header %}
-    Component Info
+    Material Info
 {% endblock %}
    
 {% block content %}
@@ -13,7 +13,7 @@
     <form method="post" enctype="multipart/form-data" novalidate id="component-form">
         {% csrf_token %}
         <div class="inventory_page_mid">
-            <div style="float:left; font-weight:700">Component Image</div>
+            <div style="float:left; font-weight:700">Material Image</div>
         </div>
         <div class="add-page-banner"> 
             {% if component.component_image %}    
@@ -27,7 +27,7 @@
             {% endif %}    
         </div>
         <div class="inventory_page_mid">
-            <div style="float:left; font-weight:700">Component Info</div>
+            <div style="float:left; font-weight:700">Material Info</div>
         </div>
         <div class="inventory_prod-page-form">
             <div class="input-group-comp">
@@ -55,7 +55,7 @@
                 </div>
                 
             </div>
-            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-form">Update</button>
         </div>
     </form>
         

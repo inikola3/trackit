@@ -41,7 +41,7 @@
                     <form class="" action="/users/login/" method="post" novalidate> 
                         {% csrf_token %}
                         {{ form }}
-                        <button type="submit" class="btn btn-primary" style="width:80%; margin-top:10px; border-radius: 30px;">Enter →</button>
+                        <button type="submit" class="btn" style="width:80%; margin-top:10px;">Enter →</button>
                     </form>
                     <h3>Not a member?<a href="{% url 'users:register' %}"> <span style="color:#63c189"> Register → </span></a> </h3>
                 </div>    

@@ -26,7 +26,7 @@
     </script>
 </head>
 
-<body {% block body_class %}  {% endblock %}>
+<body {% block body_class %} class="using-mouse" {% endblock %}>
     <div class="toggle-button" id="toggleButton">
         <img src="{% static 'dashboard+2.svg' %}" id="toggleIcon" class="toggle-icon">
     </div>    
@@ -36,38 +36,45 @@
                 <img src="{% static 'logo1.svg' %}" alt="Logo" class="sidebar-logo">
             </a> 
         </div>
-        <div class="sidebar-name"> trackit </div>   
-        <div class="icon-container">
-            <div class="icon">
-                <a href="{% url 'dashboard:dashboard' %}">                   
-                    <img src="{% static 'clipboard_simple.svg' %}" alt="Logo" class="logo3" title="Dashboard"> 
-                    <p class="icon1_text">Dashboard</p>     
-                </a>
-            </div>     
-            <div class="icon">
-                <a href="{% url 'inventory:inventory' %}">
-                    <img src="{% static 'inventory3.svg' %}" alt="Logo" class="logo4" title="Inventory">
-                    <div class="icon2_text">Inventory</div>
-                </a>
-            </div>
-            <div class="icon">
-                <a href="{% url 'inventory:components' %}">
-                    <img src="{% static 'components_icon2.svg' %}" alt="Logo" class="logo4" title="Components" style="width: 50px; height: 50px; transform: translate(5px,-8px);">
-                    <div class="icon2_text" style="transform: translate(50px,-42px);">Components</div>
-                </a>
-            </div>
-            <div class="icon">
-                <a href="{% url 'calculator:calculator' %}">
-                    <img src="{% static 'calculator.svg' %}" alt="Logo" class="logo2" title="Calculator">
-                    <p class="icon3_text">Wax Calculator</p>
-                </a>
-            </div>    
-            <!-- Add more icons here -->
-        </div>
+        <div class="sidebar-name"> trackit </div> 
+        
+        <nav class="icon-container">
+            <ul class="icon-list">
+                <li class="icon">
+                    <a href="{% url 'dashboard:dashboard' %}" title="Dashboard">
+                        <img src="{% static 'clipboard_simple.svg' %}" alt="Dashboard page link">
+                        <p class="icon-text">Dashboard</p>
+                    </a>
+                </li>
+                <li class="icon">
+                    <a href="{% url 'inventory:inventory' %}" title="Inventory">
+                        <img src="{% static 'inventory3.svg' %}" alt="Inventory page link">
+                        <p class="icon-text">Inventory</p>
+                    </a>
+                </li>
+                <li class="icon">
+                    <a href="{% url 'inventory:components' %}" title="Materials">
+                        <img src="{% static 'components_icon2.svg' %}" alt="Materials page link">
+                        <p class="icon-text">Materials</p>
+                    </a>
+                </li>
+                <li class="icon">
+                    <a href="{% url 'calculator:calculator' %}" title="Wax Calculator">
+                        <img src="{% static 'calculator.svg' %}" alt="Wax calculator page link">
+                        <p class="icon-text">Wax Calculator</p>
+                    </a>
+                </li>
+                <!-- Add more icons here -->
+            </ul>
+        </nav>
         <div class="header-button-container">
+            <div class="username-mobile">
+                <div class="user-circle"></div>    
+                <div style="font-weight:bold; font-size:20px;">{{ username }}</div>
+            </div>
             <form action ="{% url 'users:logout' %}" method="post">
                 {% csrf_token %}   
-                <button class="signin-btn">Sign-Out</button>
+                <button class="signin-btn" >Sign-Out</button>
             </form>
         </div>
     </div>
@@ -80,6 +87,11 @@
             {% endblock %}
             </div>
         {% comment %} </div> {% endcomment %}
+        <div class="username">
+            <div class="user-circle"></div>    
+            <div style="font-weight:bold; font-size:20px;">{{ username }}</div>
+        </div>
+
         <div class="header-button-container">
             <form action ="{% url 'users:logout' %}" method="post">
                 {% csrf_token %}   
@@ -95,13 +107,18 @@
 </body>
 
 <script>
-    {% comment %} let btn = document.querySelector('#navbar-selector')
-    let navbar = document.querySelector('.navbar')
+    document.addEventListener('mousedown', (event) => {
+        document.body.classList.add('using-mouse');
+    });
 
-    btn.onclick = function(){
-        navbar.classList.toggle('active');
+    document.body.addEventListener('keydown', (event) => {
+        if (event.keyCode === 9){
+            document.body.classList.remove('using-mouse');
+        }
+    });
 
-    }; {% endcomment %}
+
+
     document.getElementById('toggleButton').addEventListener('click', function() {
         var navbar = document.getElementById('navbar');
         var body = document.body;
@@ -119,6 +136,8 @@
             button.textContent = '☰';
         } {% endcomment %}
     });
+
+
 </script>
 
 <form_body> 

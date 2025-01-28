@@ -34,7 +34,7 @@ function calculateSum() {
 {% block content %}
 
 
-<div class="container">
+<div class="container calc">
     <h2 style="text-align:center;">Calculate the Wax/Fragrance amount</h2>
         <div class="input-group-calc">
             <input required type="text" id="container-size"  placeholder="Container Size">
@@ -44,7 +44,7 @@ function calculateSum() {
             <input required type="text" id="fragrance-load"  placeholder="Fragrance Load">
             <span class="input-unit2">%</span>
         </div>
-        <button onclick="calculateSum()" class="calculate-btn">Calculate</button>
+        <button onclick="calculateSum()" class="btn btn-calc">Calculate</button>
         
         <div id="noResult" class="no-res-container"></div>    
         <div class="res-container">

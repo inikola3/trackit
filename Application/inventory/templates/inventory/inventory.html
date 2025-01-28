@@ -19,9 +19,9 @@
                 <div class="empty-inventory_page-form" >
                     <img src="{% static 'empty_inv.svg' %}" alt="Logo" class="empty_inv_svg">
                 </div >
-                <a href="{% url 'inventory:add_product' %}">
-                    <button class="btn inv-add" onclick="location.href='/inventory/add_product';" >Add Product</button>
-                </a>
+                <div>
+                    <a href="{% url 'inventory:add_product' %}" class="btn">Add Product</a>
+                </div>
             </div>
         {% else %}
             <div class="inv_page_container-stats">
@@ -69,10 +69,8 @@
                     <img src="{% static 'clip_vector.svg' %}" alt="" class="clip_vector">
                 </div>
                 <div class="inv-btn-container">
-                    <a href="{% url 'inventory:add_product' %}">
-                        <button class="btn inv-add" onclick="location.href='/inventory/add_product';" >Add Product</button>
-                    </a>
-                    <button id="delete_button" type="button" class = 'btn inv-delete'>Delete Selected</button>   
+                    <a href="{% url 'inventory:add_product' %}" class="btn">Add Product</a>
+                    <button id="delete_button" type="button" class = 'btn'>Delete Selected</button>   
                 </div>
                 <form id="delete_form" method="post" action="{% url 'inventory:inventory' %}" enctype="multipart/form-data">
                     {% csrf_token %}    
@@ -121,10 +119,8 @@
             <div class="inventory_page-form-optons">
                 <h2 style="text-align:left;">Products</h2>
                 <div class="inv-btn-container">
-                    <a href="{% url 'inventory:add_product' %}">
-                        <button class="btn inv-add" onclick="location.href='/inventory/add_product';" >Add Product</button>
-                    </a>
-                    <button id="delete_button-mobile" type="button" class = 'btn inv-delete'>Delete Selected</button>   
+                    <a href="{% url 'inventory:add_product' %}" class="btn">Add Product</a>
+                    <button id="delete_button-mobile" type="button" class = 'btn'>Delete Selected</button>   
                 </div>
             </div>
             
