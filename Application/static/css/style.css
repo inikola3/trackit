@@ -369,6 +369,11 @@ h3 {
     font-weight: 500;
 }
 
+.login {
+    display: flex;
+    justify-content: center;
+}
+
 .input-group-inv {
     margin-bottom: 10px;
     left: -20px;
@@ -948,7 +953,7 @@ button.btn-primary:hover {
 .btn {
     position: relative;
     box-sizing: border-box;
-    align-self: self-start;
+    /* align-self: self-start; */
     width: 150px;
     height: 40px;
     margin-top: 15px;
@@ -2133,6 +2138,10 @@ label {
         text-align: left;
         font-size: 16px;
         font-weight: 500;
+    }
+
+    .btn {
+        align-self: center;
     }
 
     button.btn-primary {
